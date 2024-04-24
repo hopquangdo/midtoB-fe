@@ -1,0 +1,9 @@
+.card {
+    width: 700px;
+}
+@media (min-width: 1000px) {
+}
+.post-card{
+    display: flex;
+    flex-direction: row;
+}

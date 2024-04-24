@@ -1,0 +1,16 @@
+:root {
+    --dark-purple: #2A2438; /* Màu tím đậm */
+    --deep-indigo: #352F44; /* Màu lam đậm */
+    --slate-gray: #5C5470; /* Màu xám nhạt */
+    --lavender: #DBD8E3; /* Màu oải hương */
+
+    --color: #334155;
+    --main-color: #
+    --border-line: 1px solid #ccc6db;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+.display-none{
+    display: none;
+}
