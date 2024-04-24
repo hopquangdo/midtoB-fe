@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Data
 @Getter
-public class AuthRequestDTO {
+public class LoginDTO {
     @Email
     private String email;
     @Size(min = 6)

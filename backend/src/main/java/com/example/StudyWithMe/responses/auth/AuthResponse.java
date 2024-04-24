@@ -1,5 +1,6 @@
 package com.example.StudyWithMe.responses.auth;
 
+import com.example.StudyWithMe.responses.user.ProfileResponse;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,7 +10,7 @@ import java.util.List;
 @Builder
 public class AuthResponse {
     private Long userId;
-    private String userName;
     private List<String> roles;
     private TokenResponse token;
+    private ProfileResponse profile;
 }

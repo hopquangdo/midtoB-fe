@@ -6,29 +6,20 @@ import com.example.StudyWithMe.models.auth.User;
 import com.example.StudyWithMe.models.user.Profile;
 import com.example.StudyWithMe.repositories.user.ProfileRepository;
 import com.example.StudyWithMe.responses.user.ProfileResponse;
-import com.example.StudyWithMe.responses.user.UserResponse;
 import com.example.StudyWithMe.services.attachment.IAttachmentService;
-import com.example.StudyWithMe.services.auth.IAuthService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserService implements IUserService{
     private final IAttachmentService attachmentService;
     private final ProfileRepository profileRepository;
-    private final IAuthService authService;
     @Transactional
     @Override
-    public Profile createProfile(ProfileDTO profileDTO) {
-        User existingUser = authService.getUserDetail();
+    public Profile createProfile(User existingUser,ProfileDTO profileDTO) {
         Profile newProfile = Profile.builder()
                 .profileId(existingUser.getUserId())
                 .firstName(profileDTO.getFirstName())
@@ -37,13 +28,13 @@ public class UserService implements IUserService{
                 .address(profileDTO.getAddress())
                 .dateOfBirth(profileDTO.getDateOfBirth())
                 .build();
-        if (!profileDTO.getAvatar().isEmpty()) {
+        if (profileDTO.getAvatar() != null && !profileDTO.getAvatar().isEmpty()) {
             String avatarUrl = attachmentService.uploadFile(profileDTO.getAvatar());
             newProfile.setAvatar(avatarUrl);
         } else {
             newProfile.setAvatar(null);
         }
-        if (!profileDTO.getBanner().isEmpty()){
+        if (profileDTO.getBanner() != null && !profileDTO.getBanner().isEmpty()){
             String bannerUrl = attachmentService.uploadFile(profileDTO.getBanner());
             newProfile.setBanner(bannerUrl);
         } else {
@@ -54,45 +45,18 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public ProfileResponse getProfile(Long userId) throws JsonProcessingException {
+    public ProfileResponse getProfile(Long userId) {
         Profile userProfile = profileRepository.findById(userId)
                 .orElseThrow(()->new DataNotFoundException("Cannot found profile with id " + userId));
         return ProfileResponse.fromProfile(userProfile);
     }
     @Override
-    public UserResponse getUserDetail() {
-        User existingUser = authService.getUserDetail();
-        Profile profileUser = profileRepository.findById(existingUser.getUserId())
-                .orElse(null);
-        return UserResponse.fromUser(existingUser,profileUser);
-    }
-    @Override
-    public List<ProfileResponse> getAllProfileForRole(String role
-            ,int page, int limit) throws JsonProcessingException{
-        PageRequest pageRequest = PageRequest.of(page, limit);
-        pageRequest.withSort(Sort.by("updatedAt"));
-        List<User> users = authService.getAllUserForRole(role,pageRequest);
-        System.out.println(users);
-        List<ProfileResponse> profileResponses = users.stream().map(user -> {
-            Profile profile = profileRepository.findById(user.getUserId())
-                    .orElse(Profile.builder()
-                            .profileId(user.getUserId())
-                            .build());
-            return ProfileResponse.fromProfile(profile);
-        }).collect(Collectors.toList());
-        System.out.println(profileResponses);
-        return profileResponses;
-    }
-    @Override
     @Transactional
-    public ProfileResponse updateProfile(UpdateProfileDTO profileDTO) throws IOException {
-        User existingUser = authService.getUserDetail();
+    public ProfileResponse updateProfile(User existingUser,UpdateProfileDTO profileDTO) throws IOException {
         Profile profileUser = profileRepository.findById(existingUser.getUserId())
-                .orElse(Profile.builder()
-                        .profileId(existingUser.getUserId())
-                        .banner("banner-default.jpg")
-                        .avatar("avatar-default.jpg")
-                        .build());
+                .orElse(
+                        Profile.builder().build()
+                );
         if (profileDTO.getFirstName()!=null && !profileDTO.getFirstName().equals(profileUser.getFirstName())){
             profileUser.setFirstName(profileDTO.getFirstName());
         }

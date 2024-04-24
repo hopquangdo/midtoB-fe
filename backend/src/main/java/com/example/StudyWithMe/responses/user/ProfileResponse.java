@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class ProfileResponse {
-    private Long userId;
     private String firstName;
     private String lastName;
     private String gender;
@@ -21,7 +20,6 @@ public class ProfileResponse {
     private String createdAt;
     public static ProfileResponse fromProfile(Profile profile){
         return ProfileResponse.builder()
-                .userId(profile.getProfileId())
                 .firstName(profile.getFirstName())
                 .lastName(profile.getLastName())
                 .gender(profile.getGender())

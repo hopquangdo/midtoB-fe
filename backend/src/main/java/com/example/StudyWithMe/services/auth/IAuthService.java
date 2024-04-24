@@ -1,6 +1,7 @@
 package com.example.StudyWithMe.services.auth;
-import com.example.StudyWithMe.dataTransferObjects.auth.AuthRequestDTO;
+import com.example.StudyWithMe.dataTransferObjects.auth.LoginDTO;
 import com.example.StudyWithMe.dataTransferObjects.auth.ChangePasswordRequest;
+import com.example.StudyWithMe.dataTransferObjects.auth.RegisterDTO;
 import com.example.StudyWithMe.models.auth.User;
 import com.example.StudyWithMe.responses.auth.AuthResponse;
 import org.springframework.data.domain.PageRequest;
@@ -9,8 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.List;
 
 public interface IAuthService {
-    AuthResponse register(AuthRequestDTO register,String userAgent);
-    AuthResponse login(AuthRequestDTO login,String userAgent);
+    AuthResponse register(RegisterDTO registerDTO, String userAgent);
+    AuthResponse login(LoginDTO login, String userAgent);
     void logout();
     AuthResponse changePassword(ChangePasswordRequest passwordRequest);
     void deleteUser(Long userId);

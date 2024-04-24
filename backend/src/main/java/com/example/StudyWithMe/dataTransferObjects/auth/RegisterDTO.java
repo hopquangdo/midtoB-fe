@@ -1,20 +1,20 @@
-package com.example.StudyWithMe.dataTransferObjects.user;
+package com.example.StudyWithMe.dataTransferObjects.auth;
 
-import lombok.Builder;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
 @Data
-@Builder
-public class ProfileDTO {
+
+public class RegisterDTO {
+    private String email;
+    private String password;
     private String firstName;
     private String lastName;
     private String gender;
-    private String address;
     private LocalDateTime dateOfBirth;
+    private String address;
     private MultipartFile avatar;
     private MultipartFile banner;
-
 }

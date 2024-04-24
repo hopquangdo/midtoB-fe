@@ -1,7 +1,8 @@
 package com.example.StudyWithMe.controllers;
 
-import com.example.StudyWithMe.dataTransferObjects.auth.AuthRequestDTO;
+import com.example.StudyWithMe.dataTransferObjects.auth.LoginDTO;
 import com.example.StudyWithMe.dataTransferObjects.auth.ChangePasswordRequest;
+import com.example.StudyWithMe.dataTransferObjects.auth.RegisterDTO;
 import com.example.StudyWithMe.responses.ResponseObject;
 import com.example.StudyWithMe.responses.auth.AuthResponse;
 import com.example.StudyWithMe.services.auth.IAuthService;
@@ -29,7 +30,7 @@ public class AuthController {
     }
     @PostMapping("/register")
     public ResponseEntity<?> register(
-            @Valid @RequestBody AuthRequestDTO authRequestDTO,
+            @Valid @RequestBody RegisterDTO registerDTO,
             HttpServletRequest request,
             BindingResult result
     ) {
@@ -41,13 +42,13 @@ public class AuthController {
             return ResponseEntity.badRequest().body(ResponseObject.error(HttpStatus.BAD_REQUEST, errorMessages));
         }
         String userAgent = request.getHeader("User-Agent");
-        authService.register(authRequestDTO,userAgent);
-        return ResponseEntity.ok(ResponseObject.success(HttpStatus.OK, "Register successfully",null));
+        AuthResponse authResponse = authService.register(registerDTO,userAgent);
+        return ResponseEntity.ok(ResponseObject.success(HttpStatus.OK, "Register successfully",authResponse));
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(
-            @Valid @RequestBody AuthRequestDTO authRequestDTO,
+            @Valid @RequestBody LoginDTO loginDTO,
             HttpServletRequest request,
             BindingResult result
     ) {
@@ -59,7 +60,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body(ResponseObject.error(HttpStatus.BAD_REQUEST, errorMessages));
         }
         String userAgent = request.getHeader("User-Agent");
-        AuthResponse authResponse = authService.login(authRequestDTO, userAgent);
+        AuthResponse authResponse = authService.login(loginDTO, userAgent);
         return ResponseEntity.ok(ResponseObject.success(HttpStatus.OK, "Login successfully", authResponse));
     }
 

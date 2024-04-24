@@ -1,17 +1,21 @@
 package com.example.StudyWithMe.services.auth;
 import com.example.StudyWithMe.components.JwtTokenUtils;
-import com.example.StudyWithMe.dataTransferObjects.auth.AuthRequestDTO;
+import com.example.StudyWithMe.dataTransferObjects.auth.LoginDTO;
 import com.example.StudyWithMe.dataTransferObjects.auth.ChangePasswordRequest;
+import com.example.StudyWithMe.dataTransferObjects.auth.RegisterDTO;
+import com.example.StudyWithMe.dataTransferObjects.user.ProfileDTO;
 import com.example.StudyWithMe.exceptions.AccessDeniedException;
 import com.example.StudyWithMe.exceptions.DataNotFoundException;
 import com.example.StudyWithMe.exceptions.InvalidParamException;
 import com.example.StudyWithMe.models.auth.Role;
 import com.example.StudyWithMe.models.auth.User;
+import com.example.StudyWithMe.models.user.Profile;
 import com.example.StudyWithMe.repositories.auth.RoleRepository;
 import com.example.StudyWithMe.repositories.auth.UserRepository;
 import com.example.StudyWithMe.responses.auth.AuthResponse;
 import com.example.StudyWithMe.responses.auth.TokenResponse;
 import com.example.StudyWithMe.responses.user.ProfileResponse;
+import com.example.StudyWithMe.services.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,10 +41,11 @@ public class AuthService implements IAuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtils jwtTokenUtils;
     private final ITokenService tokenService;
+    private final IUserService userService;
     @Transactional
     @Override
-    public AuthResponse register(AuthRequestDTO register,String userAgent) {
-        if (userRepository.existByUserName(register.getEmail())){
+    public AuthResponse register(RegisterDTO registerDTO, String userAgent) {
+        if (userRepository.existByUserName(registerDTO.getEmail())){
             throw new InvalidParamException("Email already exists!");
         }
         List<Role> roles = new ArrayList<>();
@@ -49,31 +54,36 @@ public class AuthService implements IAuthService {
         roles.add(role);
         User newUser = User.builder()
                 .roles(roles)
-                .email(register.getEmail())
-                .password(passwordEncoder.encode(register.getPassword()))
+                .email(registerDTO.getEmail())
+                .password(passwordEncoder.encode(registerDTO.getPassword()))
                 .build();
         newUser.setActive(true);
         userRepository.save(newUser);
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                newUser.getEmail(), newUser.getPassword(),
-                newUser.getAuthorities()
-        );
-        authenticationManager.authenticate(authenticationToken);
+        Profile newProfile = userService.createProfile(newUser, ProfileDTO.builder()
+                        .firstName(registerDTO.getFirstName())
+                        .lastName(registerDTO.getLastName())
+                        .gender(registerDTO.getGender())
+                        .dateOfBirth(registerDTO.getDateOfBirth())
+                        .address(registerDTO.getAddress())
+                        .avatar(registerDTO.getAvatar())
+                        .banner(registerDTO.getBanner())
+                .build());
         String newToken = jwtTokenUtils.generateToken(newUser);
         TokenResponse tokenResponse = tokenService.addToken(newUser,newToken,userAgent);
         return AuthResponse.builder()
                 .userId(newUser.getUserId())
-                .userName(newUser.getUsername())
                 .roles(newUser.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                 .token(tokenResponse)
+                .profile(ProfileResponse.fromProfile(newProfile))
                 .build();
     }
     @Override
-    public AuthResponse login(AuthRequestDTO login,String userAgent) {
+    public AuthResponse login(LoginDTO login, String userAgent) {
         User existingUser = userRepository
                 .findByUserName(login.getEmail())
                 .orElseThrow(()
                         ->new DataNotFoundException("Invalid email / password"));
+        ProfileResponse profileUser = userService.getProfile(existingUser.getUserId());
         if (!passwordEncoder.matches(login.getPassword(),existingUser.getPassword())){
             throw new BadCredentialsException("Wrong email or password");
         }
@@ -86,9 +96,9 @@ public class AuthService implements IAuthService {
         TokenResponse tokenResponse = tokenService.addToken(existingUser,newToken,userAgent);
         return AuthResponse.builder()
                 .userId(existingUser.getUserId())
-                .userName(existingUser.getUsername())
                 .roles(existingUser.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                 .token(tokenResponse)
+                .profile(profileUser)
                 .build();
     }
     @Override
@@ -114,9 +124,6 @@ public class AuthService implements IAuthService {
         tokenService.deleteToken(existingUser);
         String newToken = jwtTokenUtils.generateToken(existingUser);
         TokenResponse tokenResponse = tokenService.addToken(existingUser,newToken,null);
-        ProfileResponse profileResponse = ProfileResponse.builder()
-                .userId(existingUser.getUserId())
-                .build();
         return AuthResponse.builder()
                 .userId(existingUser.getUserId())
                 .roles(existingUser.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
