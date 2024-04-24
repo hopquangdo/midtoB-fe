@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import "./SharePost.css";
+
 const Share = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
@@ -16,30 +16,30 @@ const Share = () => {
   }, []);
 
   return (
-    <div className={`share-container ${isSmallScreen ? 'small-screen' : 'large-screen'}`}>
-      <div className="profile-image">
+    <div className={`bg-white shadow-md rounded-md p-4 mx-4 my-6 md:max-w-md lg:max-w-[700px] ${isSmallScreen ? 'h-auto' : 'h-32'}`}>
+      <div className="flex items-center">
         <img
           src="https://th.bing.com/th/id/OIP.IazLq_U8UvpVctzrO7sinwHaHa?rs=1&pid=ImgDetMain"
           alt=""
-          className="avatar"
+          className="w-10 h-10 rounded-full mr-4"
         />
         <input
           type="text"
           placeholder="Bạn đang nghĩ gì?"
-          className="input-field"
+          className="flex-grow p-2 border rounded-md outline-none"
         />
       </div>
-      <hr className="divider" />
-      <div className="options" style={{display:"flex",flexDirection:"row"}}>
+      <hr className="my-2 border-t" />
+      <div className="flex justify-between items-center">
         <input type="file" id="file" className="hidden" />
-        <div className="option">
+        <div className="flex items-center cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="icon"
+            className="w-6 h-6 mr-2"
           >
             <path
               strokeLinecap="round"
@@ -49,14 +49,14 @@ const Share = () => {
           </svg>
           {!isSmallScreen && <span> Ảnh</span>}
         </div>
-        <div className="option">
+        <div className="flex items-center cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="icon"
+            className="w-6 h-6 mr-2"
           >
             <path
               strokeLinecap="round"
@@ -66,14 +66,14 @@ const Share = () => {
           </svg>
           {!isSmallScreen && <span>Địa điểm</span>}
         </div>
-        <div className="option">
+        <div className="flex items-center cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="icon"
+            className="w-6 h-6 mr-2"
           >
             <path
               strokeLinecap="round"
@@ -83,9 +83,9 @@ const Share = () => {
           </svg>
           {!isSmallScreen && <span>Gắn thẻ</span>}
         </div>
-        <button className="share-btn" style={{backgroundColor:"#352F44",width:"100px"}}>Share</button>
+        <button className="px-4 py-2 bg-gray-900 text-white rounded-md cursor-pointer hover:bg-gray-800 transition duration-300">Share</button>
       </div>
-  </div>
+    </div>
   );
 };
 

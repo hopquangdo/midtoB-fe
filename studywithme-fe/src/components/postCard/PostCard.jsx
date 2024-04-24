@@ -14,11 +14,10 @@ function PostCard({ post }) {
             <img src={post.avatar} alt="User Avatar" className="w-8 h-8 rounded-full" />
             <div>
               <p className="text-gray-800 font-semibold">{post.author}</p>
-              <p className="text-gray-500 text-sm">Posted 2 hours ago</p>
+              <p className="text-gray-500 text-sm">Đăng 2 giờ trước</p>
             </div>
           </div>
           <div className="text-gray-500 cursor-pointer">
-            {/* Three-dot menu icon */}
             <button className="hover:bg-gray-50 rounded-full p-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="7" r="1" />

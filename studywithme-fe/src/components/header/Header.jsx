@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useSelector } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Logo from "../logo/Logo";
 
 function classNames(...classes) {
@@ -11,16 +11,15 @@ function classNames(...classes) {
 
 export default function Header() {
   const location = useLocation();
-  const navigate = useNavigate();
   const auth = useSelector((state) => state.auth.login);
   
   const navigation = [
-    { name: 'Trang chủ', href: '/home', current: location.pathname == '/home' },
+    { name: 'Diễn đàn', href: '/home', current: location.pathname == '/home' },
     { name: 'Học tập', href: '/study', current: location.pathname == '/study' },
     { name: 'Tìm việc làm', href: '/jobs', current: location.pathname == '/jobs' },
   ]
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-gray-900">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -46,7 +45,7 @@ export default function Header() {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          item.current ? 'bg-gray-800 text-white' : 'text-gray-300 hover:bg-gray-1000 hover:text-white',
                           'rounded-md px-3 py-2 text-sm font-medium'
                         )}
                         aria-current={item.current ? 'page' : undefined}
@@ -62,7 +61,7 @@ export default function Header() {
                   <React.Fragment>
                     <Menu as="div" className="relative ml-3">
                       <div>
-                        <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                        <Menu.Button className="relative flex rounded-full bg-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                           <span className="absolute -inset-1.5" />
                           <img
                             className="h-8 w-8 rounded-full"

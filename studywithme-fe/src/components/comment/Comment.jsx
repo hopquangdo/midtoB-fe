@@ -74,7 +74,7 @@ export default function Comment({ postId }) {
   ];
 
   const renderComment = (comment) => (
-    <li key={comment.id} role="article" className="relative pl-5">
+    <div key={comment.id} role="article" className="relative pl-5">
       <div className="flex flex-col flex-1 gap-1">
         <a
           href="#"
@@ -94,12 +94,12 @@ export default function Comment({ postId }) {
             {comment.author}
             <span className="text-sm font-normal text-slate-500">
               {" "}
-              created a new thread
+              1 phút trước
             </span>
           </span>
           <span className="text-xs font-normal text-slate-400">
             {" "}
-            3 hours ago
+            3 giờ trước
           </span>
         </h4>
         <p className="text-sm text-slate-500">{comment.content}. </p>
@@ -107,7 +107,7 @@ export default function Comment({ postId }) {
         
       </div>
       <input className="w-full outline-none" placeholder="Bình luận.."/>
-    </li>
+    </div>
   );
 
   const renderReplies = (replies) => {
@@ -115,7 +115,7 @@ export default function Comment({ postId }) {
     return (
       <React.Fragment>
       {replies.map((reply) => (
-        <li key={reply.id} className="pl-5 flex items-start">
+        <div key={reply.id} className="pl-5 flex items-start">
           <a
             href="#"
             className="inline-flex items-center justify-center w-10 h-10 text-white rounded-full ring-2 ring-white"
@@ -133,12 +133,12 @@ export default function Comment({ postId }) {
             <h4 className="text-base font-medium leading-6 text-slate-700">
               {reply.author}
               <span className="text-xs font-normal text-slate-400 ml-1">
-                2 hours ago
+                1 phút trước
               </span>
             </h4>
             <p className="text-sm text-slate-500">{reply.content}</p>
           </div>
-        </li>
+        </div>
       ))}
       <input className="w-ful ml-10 outline-none" placeholder="Bình luậnnn.."/>
       </React.Fragment>
@@ -149,14 +149,10 @@ export default function Comment({ postId }) {
   );
 
   return (
-    <ul
-      aria-label="Nested user feed"
-      role="feed"
-      className="border-t-2 mt-1 border-gray-100 relative flex flex-col gap-12 py-5 pl-6 before:absolute before:top-0 before:left-6 before:h-full before:-translate-x-1/2 before:border before:border-dashed before:border-slate-200 after:absolute after:top-6 after:left-6 after:bottom-6 after:-translate-x-1/2 after:border after:border-slate-200 "
-    >
+    <div className="border-t-2 mt-1 border-gray-100 relative flex flex-col gap-12 py-5 pl-6 before:absolute before:top-0 before:left-6 before:h-full before:-translate-x-1/2 before:border before:border-dashed before:border-slate-200 after:absolute after:top-6 after:left-6 after:bottom-6 after:-translate-x-1/2 after:border after:border-slate-200 ">
       {filteredComments.map((comment) => (
         renderComment(comment)
       ))}
-    </ul>
+    </div>
   );
 }

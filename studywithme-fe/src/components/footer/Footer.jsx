@@ -2,242 +2,28 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <>
-      {/*    <!-- Phần cuối trang với giao diện tối --> */}
-      <footer className="w-full text-slate-400">
-        {/*      <!-- Footer chính --> */}
-        <div className="pt-16 pb-12 text-sm border-t border-slate-900 bg-slate-800">
-          <div className="container px-6 mx-auto">
-            <div className="grid grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12">
-              <nav
-                className="col-span-2 md:col-span-4 lg:col-span-3"
-                aria-labelledby="footer-product-dark"
-              >
-                <h3
-                  className="mb-6 text-base font-medium text-white"
-                  id="footer-product-dark"
-                >
-                  Sản phẩm
-                </h3>
-                <ul>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Tính năng
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Khách hàng
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Tại sao chọn chúng tôi?
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Giá cả
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-              <nav
-                className="col-span-2 md:col-span-4 lg:col-span-3"
-                aria-labelledby="footer-docs-dark"
-              >
-                <h3
-                  className="mb-6 text-base font-medium text-white"
-                  id="footer-docs-dark"
-                >
-                  Tài liệu & Hỗ trợ
-                </h3>
-                <ul>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Tài liệu
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Đào tạo
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Tình trạng hệ thống
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Câu hỏi thường gặp
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Trung tâm trợ giúp
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-              <nav
-                className="col-span-2 md:col-span-4 lg:col-span-3"
-                aria-labelledby="footer-about-dark"
-              >
-                <h3
-                  className="mb-6 text-base font-medium text-white"
-                  id="footer-about-dark"
-                >
-                  Về chúng tôi
-                </h3>
-                <ul>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Về chúng tôi
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Sự nghiệp
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Lãnh đạo
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Blog
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Sự kiện
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-              <nav
-                className="col-span-2 md:col-span-4 lg:col-span-3"
-                aria-labelledby="footer-get-in-touch-dark"
-              >
-                <h3
-                  className="mb-6 text-base font-medium text-white"
-                  id="footer-get-in-touch-dark"
-                >
-                  Liên hệ
-                </h3>
-                <ul>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Liên hệ
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Hỗ trợ
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Đối tác
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600"
-                    >
-                      Tham gia nghiên cứu
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div>
-        {/*      <!-- Footer phụ --> */}
-        <div className="py-4 text-sm border-t border-slate-900 bg-slate-700">
+      <div className="w-full text-slate-400">
+        <div className="py-4 text-sm border-t border-slate-900 bg-slate-900">
           <div className="container px-6 mx-auto">
             <div className="grid grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12">
               <div className="col-span-2 md:col-span-4 lg:col-span-6">
                 StudyWithMe @2024
               </div>
-              <nav
-                aria-labelledby="footer-social-links-dark"
-                className="col-span-2 text-right md:col-span-4 lg:col-span-6"
-              >
+              <nav aria-labelledby="footer-social-links-dark"className="col-span-2 text-right md:col-span-4 lg:col-span-6">
                 <h2 className="sr-only" id="footer-social-links-dark">
                   Liên kết mạng xã hội
                 </h2>
                 <ul className="flex items-center justify-end gap-4">
                   <li>
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
+                    <a href="javascript:void(0)"  className="transition-colors duration-300 hover:text-emerald-500">
+                      <svg xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 48 48"
                         height="16"
                         width="16"
                         className="w-4 h-4 shrink-0"
                         role="graphics-symbol"
-                        aria-labelledby="title-tb01-dark desc-tb01-dark"
-                      >
+                        aria-labelledby="title-tb01-dark desc-tb01-dark">
                         <title id="title-tb01-dark">Tiêu đề biểu tượng</title>
                         <desc id="desc-tb01-dark">
                           Mô tả chi tiết hơn về biểu tượng
@@ -252,10 +38,7 @@ export default function Footer() {
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500"
-                    >
+                    <a href="javascript:void(0)"  className="transition-colors duration-300 hover:text-emerald-500">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -264,24 +47,19 @@ export default function Footer() {
                         width="16"
                         className="w-4 h-4 shrink-0"
                         role="graphics-symbol"
-                        aria-labelledby="title-tb02-dark desc-tb02-dark"
-                      >
+                        aria-labelledby="title-tb02-dark desc-tb02-dark">
                         <title id="title-tb02-dark">Tiêu đề biểu tượng</title>
                         <desc id="desc-tb02-dark">
                           Mô tả chi tiết hơn về biểu tượng
                         </desc>
                         <path
                           fill="currentColor"
-                          d="M34.7229 4.69819C36.9179 5.13151 38.8231 6.226 39.9574 7.46121L44.8741 7.22772C46.162 7.16656 46.9576 8.61264 46.216 9.66758L42.8041 14.5217C43.7777 35.6815 22.2547 49.0961 4.54954 41.2208C3.75067 40.8654 3.58181 40.0439 3.74682 39.4029C3.91015 38.7685 4.4337 38.1304 5.23631 38.0329C7.74782 37.7279 10.886 36.8951 13.5309 34.8102C11.3351 34.4801 8.87383 33.2203 6.77118 31.5522C4.25179 29.5535 2.11595 26.8651 1.53319 24.2321C1.41942 23.7181 1.60805 23.2504 1.94754 22.9478C2.27981 22.6517 2.75116 22.5146 3.22643 22.6022C4.4998 22.8369 6.44397 23.1705 7.93366 23.3225C7.82715 23.2095 7.71399 23.0872 7.59534 22.9561C6.83881 22.1198 5.85466 20.9171 4.947 19.4528C3.13974 16.5372 1.58717 12.5021 2.86967 8.24191C3.04524 7.65872 3.52191 7.3215 4.02883 7.2399C4.52724 7.15967 5.07712 7.31911 5.46709 7.72851C7.80814 10.1862 13.7896 15.4057 22.914 16.1638C22.5823 14.0277 22.368 9.45707 27.2507 6.17582C29.7236 4.51405 32.4029 4.2402 34.7229 4.69819Z"
-                        />
+                          d="M34.7229 4.69819C36.9179 5.13151 38.8231 6.226 39.9574 7.46121L44.8741 7.22772C46.162 7.16656 46.9576 8.61264 46.216 9.66758L42.8041 14.5217C43.7777 35.6815 22.2547 49.0961 4.54954 41.2208C3.75067 40.8654 3.58181 40.0439 3.74682 39.4029C3.91015 38.7685 4.4337 38.1304 5.23631 38.0329C7.74782 37.7279 10.886 36.8951 13.5309 34.8102C11.3351 34.4801 8.87383 33.2203 6.77118 31.5522C4.25179 29.5535 2.11595 26.8651 1.53319 24.2321C1.41942 23.7181 1.60805 23.2504 1.94754 22.9478C2.27981 22.6517 2.75116 22.5146 3.22643 22.6022C4.4998 22.8369 6.44397 23.1705 7.93366 23.3225C7.82715 23.2095 7.71399 23.0872 7.59534 22.9561C6.83881 22.1198 5.85466 20.9171 4.947 19.4528C3.13974 16.5372 1.58717 12.5021 2.86967 8.24191C3.04524 7.65872 3.52191 7.3215 4.02883 7.2399C4.52724 7.15967 5.07712 7.31911 5.46709 7.72851C7.80814 10.1862 13.7896 15.4057 22.914 16.1638C22.5823 14.0277 22.368 9.45707 27.2507 6.17582C29.7236 4.51405 32.4029 4.2402 34.7229 4.69819Z"/>
                       </svg>
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="javascript:void(0)"
-                      className="transition-colors duration-300 hover:text-emerald-500"
-                    >
+                    <a href="javascript:void(0)" className="transition-colors duration-300 hover:text-emerald-500">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -290,8 +68,7 @@ export default function Footer() {
                         width="16"
                         className="w-4 h-4 shrink-0"
                         role="graphics-symbol"
-                        aria-labelledby="title-tb03-dark desc-tb03-dark"
-                      >
+                        aria-labelledby="title-tb03-dark desc-tb03-dark">
                         <title id="title-tb03-dark">Tiêu đề biểu tượng</title>
                         <desc id="desc-tb03-dark">
                           Mô tả chi tiết hơn về biểu tượng
@@ -310,7 +87,6 @@ export default function Footer() {
             </div>
           </div>
         </div>
-      </footer>
-    </>
+      </div>
   );
 }
