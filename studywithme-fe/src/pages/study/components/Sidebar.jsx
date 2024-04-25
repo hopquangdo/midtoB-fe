@@ -5,15 +5,11 @@ const Sidebar = () => {
 
   const Menus = [
     { title: "Khóa học",href:'/study/course',icon: <UniversityIcon/>},
-    { title: "Hỏi đáp",href: '/study/faq', icon: <BookIcon/> },
-    { title: "Tìm kiếm tài liệu",href: '/study/searchFile', icon: <SearchIcon /> },
-    { title: "Đăng tài liệu",href:'/study/uploadFile', icon: <UploadIcon /> },
+    { title: "Hỏi đáp",href: '/study/questions', icon: <BookIcon/> },
+    { title: "Tìm kiếm tài liệu",href: '/study/search-file', icon: <SearchIcon /> },
+    { title: "Đăng tài liệu",href:'/study/upload-file', icon: <UploadIcon /> },
     { title: "Setting",href:'/study/settings', icon: <SettingIcon />, gap: true },
   ];
-
-  const toggleSidebar = () => {
-    setOpen(!open);
-  };
 
   return (
     <div className={` ${open ? "w-72" : "w-20"} bg-gray-900 p-5 pt-1 relative duration-300`}

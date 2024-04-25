@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Comment from "../comment/Comment";
+import Comment from "../../../../components/comment/Comment";
 function PostCard({ post }) {
   const [actionLike, setActionLike] = useState(false);
   const [showComment,setShowComment] = useState(false);

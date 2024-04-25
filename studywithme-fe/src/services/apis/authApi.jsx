@@ -10,12 +10,9 @@ class AuthApi {
         const url = '/auth/register';
         return axiosClient.post(url, params );
     };
-    logout = (accessToken) => {
+    logout = () => {
         const url = '/auth/logout';
-        const headers = {
-            Authorization: `Bearer ${accessToken}`
-        };
-        return axiosClient.post(url,null, { headers });
+        return axiosClient.post(url,null);
     }
 }
 

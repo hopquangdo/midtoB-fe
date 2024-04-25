@@ -1,9 +1,11 @@
+import React from 'react';
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { useSelector } from 'react-redux'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom';
 import Logo from "../logo/Logo";
+import { logOut } from '../../redux/auth/authRequest';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -11,8 +13,8 @@ function classNames(...classes) {
 
 export default function Header() {
   const location = useLocation();
-  const auth = useSelector((state) => state.auth.login);
-  
+  const authUser = useSelector((state) => state.auth.login);
+  const dispatch = useDispatch();
   const navigation = [
     { name: 'Diễn đàn', href: '/home', current: location.pathname == '/home' },
     { name: 'Học tập', href: '/study', current: location.pathname == '/study' },
@@ -57,15 +59,14 @@ export default function Header() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                {auth.isLoggedIn ? (
+                {authUser.isLoggedIn ? (
                   <React.Fragment>
                     <Menu as="div" className="relative ml-3">
                       <div>
                         <Menu.Button className="relative flex rounded-full bg-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                           <span className="absolute -inset-1.5" />
-                          <img
-                            className="h-8 w-8 rounded-full"
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          <img className="h-8 w-8 rounded-full"
+                            src={`${authUser.currentUser.avatar}`}
                             alt=""
                           />
                         </Menu.Button>
@@ -82,8 +83,7 @@ export default function Header() {
                         <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                           <Menu.Item>
                             {({ active }) => (
-                              <a
-                                href={`/user/999`}
+                              <a href={`/user/999`}
                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                               >
                                 Trang cá nhân
@@ -92,8 +92,7 @@ export default function Header() {
                           </Menu.Item>
                           <Menu.Item>
                             {({ active }) => (
-                              <a
-                                href="/settings"
+                              <a href="/settings"
                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
                                 Cài đặt
                               </a>
@@ -101,9 +100,9 @@ export default function Header() {
                           </Menu.Item>
                           <Menu.Item>
                             {({ active }) => (
-                              <a
-                                href="/logout"
-                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
+                              <a href="/"
+                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                onClick={()=>{logOut(dispatch);}}>
                                 Đăng xuất
                               </a>
                             )}
@@ -113,9 +112,14 @@ export default function Header() {
                     </Menu> 
                   </React.Fragment>
                 ):(
-                  <a href='/login' class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                    Đăng nhập
-                  </a>
+                  <React.Fragment>
+                    <a href='/login' className="text-white hidden sm:block  bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">
+                      Đăng nhập
+                    </a>
+                    <a href='/login' className="">
+                      <svg  className="h-8 w-8 text-gray-500 sm:hidden"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />  <path d="M20 12h-13l3 -3m0 6l-3 -3" /></svg>
+                    </a>
+                  </React.Fragment>
                 )}
               </div>
             </div>
@@ -135,6 +139,7 @@ export default function Header() {
                   aria-current={item.current ? 'page' : undefined}
                 >
                   {item.name}
+                  
                 </Disclosure.Button>
               ))}
             </div>

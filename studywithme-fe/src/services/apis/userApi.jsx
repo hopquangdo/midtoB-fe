@@ -1,11 +1,8 @@
 import axiosClient from "./apiClient";
 class UserApi {
-    createProfile = (params,accessToken) => {
+    createProfile = (params) => {
         const url = '/user/create-task';
-        const headers = {
-            Authorization: `Bearer ${accessToken}`
-        }
-        return axiosClient.post(url,{headers},{params});
+        return axiosClient.post(url,{params});
     }
     getProfile = (userId) => {
         const url = `/user/profile/${userId}`;
@@ -13,36 +10,23 @@ class UserApi {
     }
     getUser = (accessToken) => {
         const url = `/user`;
-        const headers = {
-            Authorization: `Bearer ${accessToken}`
-        }
-        return axiosClient.get(url,{headers});
+        return axiosClient.get(url);
     }
 
-    updateProfile = (updateProfileDTO,accessToken) => {
+    updateProfile = (updateProfileDTO) => {
         const url = '/user/updateProfile';
-        const headers = {
-            Authorization: `Bearer ${accessToken}`
-         };
-        return axiosClient.put(url,updateProfileDTO,{headers})
+        return axiosClient.put(url,updateProfileDTO)
     }
-    updateAvatar = (file,accessToken) => {
+    updateAvatar = (file) => {
         const url = '/user/updateAvatar';
-        const headers = {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'multipart/form-data'
-        };
         const formData = new FormData();
             formData.append('file', file);
-        return axiosClient.put(url, formData, { headers });
+        return axiosClient.put(url, formData);
     }
 
-    getAllUser = (accessToken) => {
+    getAllUser = () => {
         const url = '/user/users';
-        const headers = {
-            Authorization: `Bearer ${accessToken}`
-        };
-        return axiosClient.get(url, {headers});
+        return axiosClient.get(ur );
     };
 }
 const userApi = new UserApi();

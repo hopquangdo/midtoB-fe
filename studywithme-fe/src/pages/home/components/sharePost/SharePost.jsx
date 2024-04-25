@@ -16,7 +16,7 @@ const Share = () => {
   }, []);
 
   return (
-    <div className={`bg-white shadow-md rounded-md p-4 mx-4 my-6 md:max-w-md lg:max-w-[700px] ${isSmallScreen ? 'h-auto' : 'h-32'}`}>
+    <div className={`w-full bg-white shadow-md rounded-md p-4 mx-4 my-6 md:max-w-md lg:max-w-[700px] ${isSmallScreen ? 'h-auto' : 'h-32'}`}>
       <div className="flex items-center">
         <img
           src="https://th.bing.com/th/id/OIP.IazLq_U8UvpVctzrO7sinwHaHa?rs=1&pid=ImgDetMain"

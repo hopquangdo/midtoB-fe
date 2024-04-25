@@ -7,10 +7,18 @@ const axiosClient = axios.create({
     },
     paramsSerializer: params => queryString.stringify(params),
 });
-axiosClient.interceptors.request.use(async (config) => {
-    // Handle token here ...
+axiosClient.interceptors.request.use(function (config){
+    const token = localStorage.getItem('persist:auth');
+    if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`;
+    }
+
     return config;
-})
+}, function (error) {
+    console.log(error);
+    return Promise.reject(error);
+});
+
 axiosClient.interceptors.response.use((response) => {
     if (response && response.data) {
         return response.data;
@@ -19,4 +27,5 @@ axiosClient.interceptors.response.use((response) => {
 }, (error) => {
     throw error;
 });
+
 export default axiosClient;

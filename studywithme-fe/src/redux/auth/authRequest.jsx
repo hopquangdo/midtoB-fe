@@ -3,11 +3,11 @@ import { loginFailed, loginStart, loginSuccess, logoutStart, logoutSuccess, logo
 
 export const loginUser = async(user, dispatch) => {
     dispatch(loginStart());
-    console.log("vao den day roi")
     try {
-        const authResponse = await authApi.login(user);
-        dispatch(loginSuccess(authResponse.data));
-        return authResponse;
+        const response = await authApi.login(user);
+        dispatch(loginSuccess(response.data));
+        console.log(response);
+        return response;
     } catch (err) {
         dispatch(loginFailed());
         console.log(err);
@@ -22,15 +22,13 @@ export const registerUser = async(user,dispatch) => {
         return err;
     }
 }
-export const logOut = async(acessToken, dispatch, navigate) => {
+export const logOut = async(dispatch) => {
     dispatch(logoutStart());
     try {
-        await authApi.logout(acessToken);
+        await authApi.logout();
         dispatch(logoutSuccess());
-        navigate("/");
     } catch(err) {
         dispatch(logoutSuccess());
         console.log("Loi",err);
-        navigate("/");
     }
 }

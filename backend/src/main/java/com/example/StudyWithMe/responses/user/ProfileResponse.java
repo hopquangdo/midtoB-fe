@@ -27,7 +27,7 @@ public class ProfileResponse {
                 .dateOfBirth(profile.getDateOfBirth())
                 .avatar(profile.getAvatar())
                 .banner(profile.getBanner())
-                .createdAt(profile.getCreatedAt().toString())
+                .createdAt(profile.getCreatedAt()!=null ? profile.getCreatedAt().toString() : null)
                 .build();
     }
 }

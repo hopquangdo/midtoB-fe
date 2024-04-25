@@ -12,7 +12,6 @@ export default function ProfileCard() {
   }
   return (
   <div class="flex items-center w-full justify-center">
-
     <div class="max-w-xs">
         <div class="bg-white shadow-xl rounded-lg py-3">
             <div class="photo-wrapper p-2">
@@ -39,7 +38,7 @@ export default function ProfileCard() {
                 </tbody></table>
 
                 <div class="text-center my-3">
-                    <a class="text-xs text-indigo-500 italic hover:underline hover:text-indigo-600 font-medium" href="#">Trang cá nhân</a>
+                    <a class="text-xs text-indigo-500 italic hover:underline hover:text-indigo-600 font-medium" href={`/user/${profile.profileId}`}>Trang cá nhân</a>
                 </div>
 
             </div>

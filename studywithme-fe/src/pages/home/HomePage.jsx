@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import { Avatar, Button, Card, Input, Upload, message } from 'antd';
-import { VideoCameraOutlined, UploadOutlined } from '@ant-design/icons';
-import ListPost from "../../components/listPost/ListPost";
-import SharePost from '../../components/sharePost/SharePost';
-import FriendCard from '../../components/friendCard/FriendCard';
+import ListPost from "./components/listPost/ListPost";
+import SharePost from './components/sharePost/SharePost';
 import ProfileCard from '../../components/profileCard/ProfileCard';
-const { TextArea } = Input;
 
 const HomePage = () => {
   return (
@@ -15,12 +11,9 @@ const HomePage = () => {
           <div className="col-span-4 lg:col-span-3 hidden md:block">
             <ProfileCard/>
           </div>
-          <div className=" col-span-4 lg:col-span-6 flex flex-col justify-center">
+          <div className=" col-span-4 lg:col-span-9 flex flex-col justify-center items-center ">
             <SharePost/>
             <ListPost />
-          </div>
-          <div className="col-span-4 lg:col-span-3 hidden md:block">
-            <FriendCard /> 
           </div>
         </div>
       </div>
