@@ -8,7 +8,7 @@ const axiosClient = axios.create({
     paramsSerializer: params => queryString.stringify(params),
 });
 axiosClient.interceptors.request.use(function (config){
-    const token = localStorage.getItem('persist:auth');
+    const token = localStorage.getItem('accessToken');
     if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
     }

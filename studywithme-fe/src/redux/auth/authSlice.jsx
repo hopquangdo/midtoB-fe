@@ -18,7 +18,23 @@ const authSlice = createSlice({
         logout: {
             isLoading: false,
             error: false,
-        }
+        },
+        singup: {
+            isLoading: false,
+            error: false
+        },
+        login: {
+            isLoggedIn: false,
+            isAdmin: false,
+            currentUser: {
+                userId: "",
+                firstName: "",
+                lastName: "",
+                avatar: ""
+            },
+            isFetching: false,
+            error: false
+        },
     },
     reducers: {
         loginStart: (state) => {

@@ -2,7 +2,7 @@ import "./Logo.css";
 const Logo = () => {
     return (
         <div className="logo-swm">
-            StudyWithMe
+            SNLife
         </div>
     )
 }
