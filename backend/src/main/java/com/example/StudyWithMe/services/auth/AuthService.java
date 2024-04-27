@@ -14,7 +14,7 @@ import com.example.StudyWithMe.repositories.auth.RoleRepository;
 import com.example.StudyWithMe.repositories.auth.UserRepository;
 import com.example.StudyWithMe.responses.auth.AuthResponse;
 import com.example.StudyWithMe.responses.auth.TokenResponse;
-import com.example.StudyWithMe.responses.user.ProfileResponse;
+import com.example.StudyWithMe.responses.user.ProfileDetailResponse;
 import com.example.StudyWithMe.services.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -74,7 +74,7 @@ public class AuthService implements IAuthService {
                 .userId(newUser.getUserId())
                 .roles(newUser.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                 .token(tokenResponse)
-                .profile(ProfileResponse.fromProfile(newProfile))
+                .profile(ProfileDetailResponse.fromProfile(newProfile))
                 .build();
     }
     @Override
@@ -83,7 +83,7 @@ public class AuthService implements IAuthService {
                 .findByUserName(login.getEmail())
                 .orElseThrow(()
                         ->new DataNotFoundException("Invalid email / password"));
-        ProfileResponse profileUser = userService.getProfile(existingUser.getUserId());
+        Profile profileUser = userService.getProfile(existingUser.getUserId());
         if (!passwordEncoder.matches(login.getPassword(),existingUser.getPassword())){
             throw new BadCredentialsException("Wrong email or password");
         }
@@ -98,7 +98,7 @@ public class AuthService implements IAuthService {
                 .userId(existingUser.getUserId())
                 .roles(existingUser.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                 .token(tokenResponse)
-                .profile(profileUser)
+                .profile(ProfileDetailResponse.fromProfile(profileUser))
                 .build();
     }
     @Override
@@ -175,6 +175,11 @@ public class AuthService implements IAuthService {
     public List<User> getAllUserForRole(String role,PageRequest pageRequest){
         Page<User> userPage = userRepository.findAllUserByRole(role,pageRequest);
         return userPage.getContent();
+    }
+    @Override
+    public User getUser(Long userId){
+        return userRepository.findById(userId)
+                .orElseThrow(()->new DataNotFoundException(""));
     }
     @Override
     public User getUserDetail() {

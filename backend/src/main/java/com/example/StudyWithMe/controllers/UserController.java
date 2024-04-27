@@ -1,27 +1,20 @@
 package com.example.StudyWithMe.controllers;
 
-import com.example.StudyWithMe.dataTransferObjects.user.ProfileDTO;
 import com.example.StudyWithMe.dataTransferObjects.user.UpdateProfileDTO;
 import com.example.StudyWithMe.models.auth.User;
 import com.example.StudyWithMe.models.user.Profile;
 import com.example.StudyWithMe.responses.ResponseObject;
-import com.example.StudyWithMe.responses.user.ProfileResponse;
-import com.example.StudyWithMe.responses.user.UserResponse;
+import com.example.StudyWithMe.responses.user.ProfileDetailResponse;
 import com.example.StudyWithMe.services.auth.IAuthService;
 import com.example.StudyWithMe.services.user.IUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -34,10 +27,10 @@ public class UserController {
     public ResponseEntity<?> getProfile(
             @PathVariable Long userId
     ) throws JsonProcessingException{
-        ProfileResponse profileResponse = userService.getProfile(userId);
+        Profile profileResponse = userService.getProfile(userId);
         return ResponseEntity.ok(ResponseObject.builder()
                         .status(HttpStatus.OK)
-                        .data(profileResponse)
+                        .data(ProfileDetailResponse.fromProfile(profileResponse))
                 .build());
     }
     @PutMapping("/updateProfile")
@@ -45,9 +38,9 @@ public class UserController {
     public ResponseEntity<?> updateProfile(
             @RequestBody UpdateProfileDTO updateProfileDTO) throws IOException {
         User existingUser = authService.getUserDetail();
-        ProfileResponse profileResponse = userService.updateProfile(existingUser,updateProfileDTO);
+        ProfileDetailResponse profileDetailResponse = userService.updateProfile(existingUser,updateProfileDTO);
         return ResponseEntity.ok((ResponseObject.success(HttpStatus.OK,
                 "update profile successfully!",
-                profileResponse)));
+                profileDetailResponse)));
     }
 }

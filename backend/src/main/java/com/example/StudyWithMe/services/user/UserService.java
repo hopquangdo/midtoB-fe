@@ -5,7 +5,7 @@ import com.example.StudyWithMe.exceptions.DataNotFoundException;
 import com.example.StudyWithMe.models.auth.User;
 import com.example.StudyWithMe.models.user.Profile;
 import com.example.StudyWithMe.repositories.user.ProfileRepository;
-import com.example.StudyWithMe.responses.user.ProfileResponse;
+import com.example.StudyWithMe.responses.user.ProfileDetailResponse;
 import com.example.StudyWithMe.services.attachment.IAttachmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,14 +45,14 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public ProfileResponse getProfile(Long userId) {
+    public Profile getProfile(Long userId) {
         Profile userProfile = profileRepository.findById(userId)
                 .orElseThrow(()->new DataNotFoundException("Cannot found profile with id " + userId));
-        return ProfileResponse.fromProfile(userProfile);
+        return userProfile;
     }
     @Override
     @Transactional
-    public ProfileResponse updateProfile(User existingUser,UpdateProfileDTO profileDTO) throws IOException {
+    public ProfileDetailResponse updateProfile(User existingUser, UpdateProfileDTO profileDTO) throws IOException {
         Profile profileUser = profileRepository.findById(existingUser.getUserId())
                 .orElse(
                         Profile.builder().build()
@@ -75,6 +75,6 @@ public class UserService implements IUserService{
             profileUser.setBanner(profileDTO.getBanner());
         }
         profileRepository.save(profileUser);
-        return ProfileResponse.fromProfile(profileUser);
+        return ProfileDetailResponse.fromProfile(profileUser);
     }
 }

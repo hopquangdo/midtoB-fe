@@ -75,13 +75,11 @@ CREATE TABLE profiles(
 CREATE TABLE posts (
     post_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
-    title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     created_at DATETIME,
     updated_at DATETIME,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
-
 CREATE TABLE comments (
     comment_id INT AUTO_INCREMENT PRIMARY KEY,
     post_id INT,
@@ -208,30 +206,4 @@ CREATE TABLE job_applications (
 );
 
 
-Enum "question_attachments_file_type_enum" {
-  "image"
-  "video"
-}
 
-Enum "answers_attachments_file_type_enum" {
-  "image"
-  "video"
-}
-
-Table "question_attachments" {
-  "attachment_id" INT [pk, increment]
-  "file_type" question_attachments_file_type_enum [not null]
-  "file_url" VARCHAR(255) [not null]
-  "question_id" INT
-}
-
-Table "answers_attachments" {
-  "attachment_id" INT [pk, increment]
-  "file_type" answers_attachments_file_type_enum [not null]
-  "file_url" VARCHAR(255) [not null]
-  "answer_id" INT
-}
-
-Ref:"questions"."question_id" < "question_attachments"."question_id"
-
-Ref:"answers"."answer_id" < "answers_attachments"."answer_id"

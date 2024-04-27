@@ -19,5 +19,6 @@ public interface IAuthService {
     List<User> getAllUserForRole(String role,PageRequest pageRequest);
     UserDetails authenticationToken(String token);
     AuthResponse refreshToken(String refreshToken);
+    User getUser(Long userId);
     User getUserDetail();
 }

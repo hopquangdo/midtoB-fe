@@ -5,15 +5,15 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom';
 import Logo from "../logo/Logo";
-import { logOut } from '../../redux/auth/authRequest';
+import { logoutUser } from '../../redux/user/userRequest';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
-
 export default function Header() {
   const location = useLocation();
-  const authUser = useSelector((state) => state.auth.login);
+  const authUser = useSelector((state) => state.user.auth);
+  console.log("data: ",authUser);
   const dispatch = useDispatch();
   const navigation = [
     { name: 'Diễn đàn', href: '/home', current: location.pathname == '/home' },
@@ -102,7 +102,7 @@ export default function Header() {
                             {({ active }) => (
                               <a href="/"
                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                onClick={()=>{logOut(dispatch);}}>
+                                onClick={()=>{logoutUser(dispatch);}}>
                                 Đăng xuất
                               </a>
                             )}
@@ -117,7 +117,7 @@ export default function Header() {
                       Đăng nhập
                     </a>
                     <a href='/login' className="">
-                      <svg  className="h-8 w-8 text-gray-500 sm:hidden"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />  <path d="M20 12h-13l3 -3m0 6l-3 -3" /></svg>
+                      <svg  className="h-8 w-8 text-gray-500 sm:hidden"  width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />  <path d="M20 12h-13l3 -3m0 6l-3 -3" /></svg>
                     </a>
                   </React.Fragment>
                 )}
