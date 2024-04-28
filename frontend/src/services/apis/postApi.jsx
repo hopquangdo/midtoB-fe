@@ -1,10 +1,16 @@
 import axiosClient from "./apiClient";
 
 class PostApi {
-    createPost = (postData) => {
+    createPost =  (formData) => {
         const url = '/post/createPost';
-        return axiosClient.post(url, postData);
-    }
+        const config = {
+            headers: {
+                'Authorization': axiosClient.defaults.headers.common['Authorization'],
+                'Content-Type': 'multipart/form-data'
+            }
+        };
+        return axiosClient.post(url, formData, config);
+    };
 
     getAllPosts = () => {
         const url = '/post/';

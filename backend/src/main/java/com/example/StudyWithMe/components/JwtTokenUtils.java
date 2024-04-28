@@ -1,7 +1,7 @@
 package com.example.StudyWithMe.components;
 
 import com.example.StudyWithMe.exceptions.TokenExpiredException;
-import com.example.StudyWithMe.models.auth.User;
+import com.example.StudyWithMe.models.user.auth.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;

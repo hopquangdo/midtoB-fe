@@ -1,7 +1,7 @@
 package com.example.StudyWithMe.responses.user;
 
-import com.example.StudyWithMe.models.auth.User;
-import com.example.StudyWithMe.models.user.Profile;
+import com.example.StudyWithMe.models.user.auth.User;
+import com.example.StudyWithMe.models.user.profile.Profile;
 import lombok.Builder;
 import lombok.Data;
 

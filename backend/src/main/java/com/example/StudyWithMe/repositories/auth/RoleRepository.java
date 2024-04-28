@@ -1,5 +1,5 @@
 package com.example.StudyWithMe.repositories.auth;
-import com.example.StudyWithMe.models.auth.Role;
+import com.example.StudyWithMe.models.user.auth.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;

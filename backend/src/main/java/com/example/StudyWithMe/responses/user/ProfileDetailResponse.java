@@ -1,5 +1,5 @@
 package com.example.StudyWithMe.responses.user;
-import com.example.StudyWithMe.models.user.Profile;
+import com.example.StudyWithMe.models.user.profile.Profile;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;

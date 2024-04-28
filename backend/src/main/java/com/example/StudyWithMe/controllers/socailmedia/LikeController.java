@@ -1,19 +1,13 @@
-package com.example.StudyWithMe.controllers;
+package com.example.StudyWithMe.controllers.socailmedia;
 
-import com.example.StudyWithMe.models.post.Like;
+import com.example.StudyWithMe.models.socialmedia.like.Like;
 import com.example.StudyWithMe.responses.ResponseObject;
-import com.example.StudyWithMe.responses.like.LikeResponse;
-import com.example.StudyWithMe.responses.like.ListLikeResponse;
-import com.example.StudyWithMe.services.post.ILikeService;
+import com.example.StudyWithMe.services.socialmedia.like.ILikeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/like")

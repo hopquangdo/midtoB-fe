@@ -80,6 +80,15 @@ CREATE TABLE posts (
     updated_at DATETIME,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+CREATE TABLE post_attachments(
+    attachment_id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT,
+    attachment_type VARCHAR(20),
+    attachment_url TEXT,
+    created_at DATETIME,
+    updated_at DATETIME,
+    FOREIGN KEY (post_id) REFERENCES posts(post_id)
+) AUTO_INCREMENT = 1000000;
 CREATE TABLE comments (
     comment_id INT AUTO_INCREMENT PRIMARY KEY,
     post_id INT,

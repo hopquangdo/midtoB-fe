@@ -1,5 +1,6 @@
-package com.example.StudyWithMe.models.post;
-import com.example.StudyWithMe.models.auth.User;
+package com.example.StudyWithMe.models.socialmedia.like;
+import com.example.StudyWithMe.models.user.auth.User;
+import com.example.StudyWithMe.models.socialmedia.post.Post;
 import jakarta.persistence.*;
 import lombok.*;
 

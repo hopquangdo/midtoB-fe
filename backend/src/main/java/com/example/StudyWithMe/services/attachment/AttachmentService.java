@@ -1,64 +1,63 @@
 package com.example.StudyWithMe.services.attachment;
-import com.example.StudyWithMe.exceptions.InvalidParamException;
-import org.springframework.beans.factory.annotation.Value;
+import com.google.auth.Credentials;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.UUID;
+
 @Service
-public class AttachmentService  implements IAttachmentService{
-    @Value("uploads")
-    private String uploadDir;
-    @Override
-    public String uploadFile(MultipartFile file) {
-        try {
-            String url = storeFile(file);
-            return url;
-        } catch (IOException e){
-            throw new InvalidParamException("Cannot upload file! " + e.getMessage());
+public class AttachmentService implements IAttachmentService{
+
+    private String uploadFile(File file, String fileName) throws IOException {
+        BlobId blobId = BlobId.of("pjstudywithme.appspot.com", fileName); // Replace with your bucker name
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
+        InputStream inputStream = AttachmentService.class.getClassLoader().getResourceAsStream("firebase.json"); // change the file name with your one
+        Credentials credentials = GoogleCredentials.fromStream(inputStream);
+        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+        storage.create(blobInfo, Files.readAllBytes(file.toPath()));
+
+        String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/pjstudywithme.appspot.com/o/%s?alt=media";
+        return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+    }
+
+    private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
+        File tempFile = new File(fileName);
+        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+            fos.write(multipartFile.getBytes());
+            fos.close();
         }
+        return tempFile;
     }
+
+    private String getExtension(String fileName) {
+        return fileName.substring(fileName.lastIndexOf("."));
+    }
+
     @Override
-    public void deleteFile(String fileName) throws IOException {
-        Path uploadDirPath = Paths.get(uploadDir);
-        Path filePath = uploadDirPath.resolve(fileName);
-        if (Files.exists(filePath)) {
-            Files.delete(filePath);
-        } ;
-    }
-    private String storeFile(MultipartFile file) throws IOException {
+    public String upload(MultipartFile multipartFile) {
         try {
-            if (!isValidFile(file) || file.getOriginalFilename() == null) {
-                throw new IOException("Invalid file format");
-            }
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            String uniqueFileName = UUID.randomUUID() + "_" + fileName;
-            Path uploadPath = Paths.get(uploadDir);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-            Path destination = Paths.get(uploadPath.toString(), uniqueFileName);
-            Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
-            return uniqueFileName;
-        } catch (IOException ex) {
-            throw new IOException("Could not store file " + file.getOriginalFilename(), ex);
+            String fileName = multipartFile.getOriginalFilename();                        // to get original file name
+            fileName = UUID.randomUUID().toString().concat(this.getExtension(fileName));  // to generated random string values for file name.
+
+            File file = this.convertToFile(multipartFile, fileName);                      // to convert multipartFile to File
+            String URL = this.uploadFile(file, fileName);                                   // to get uploaded file link
+            file.delete();
+            return URL;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Image couldn't upload, Something went wrong";
         }
-    }
-    private boolean isValidFile(MultipartFile file){
-        return isVideoFile(file) || isImageFile(file);
-    }
-    private boolean isVideoFile(MultipartFile file) {
-        String contentType = file.getContentType();
-        return contentType != null && contentType.startsWith("video/");
-    }
-    private boolean isImageFile(MultipartFile file) {
-        String contentType = file.getContentType();
-        return contentType != null && contentType.startsWith("image/");
     }
 }

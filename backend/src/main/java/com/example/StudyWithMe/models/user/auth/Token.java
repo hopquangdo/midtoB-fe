@@ -1,4 +1,4 @@
-package com.example.StudyWithMe.models.auth;
+package com.example.StudyWithMe.models.user.auth;
 import com.example.StudyWithMe.models.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;

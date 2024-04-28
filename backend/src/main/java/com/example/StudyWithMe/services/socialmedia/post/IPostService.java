@@ -1,7 +1,7 @@
-package com.example.StudyWithMe.services.post;
+package com.example.StudyWithMe.services.socialmedia.post;
 
 import com.example.StudyWithMe.dataTransferObjects.post.PostDTO;
-import com.example.StudyWithMe.models.post.Post;
+import com.example.StudyWithMe.models.socialmedia.post.Post;
 import com.example.StudyWithMe.responses.post.PostResponse;
 
 import java.util.List;

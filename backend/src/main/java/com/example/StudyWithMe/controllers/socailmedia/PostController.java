@@ -1,14 +1,11 @@
-package com.example.StudyWithMe.controllers;
+package com.example.StudyWithMe.controllers.socailmedia;
 
 import com.example.StudyWithMe.dataTransferObjects.post.PostDTO;
-import com.example.StudyWithMe.models.post.Like;
-import com.example.StudyWithMe.models.post.Post;
+import com.example.StudyWithMe.models.socialmedia.post.Post;
 import com.example.StudyWithMe.responses.ResponseObject;
 import com.example.StudyWithMe.responses.post.PostResponse;
-import com.example.StudyWithMe.services.post.ILikeService;
-import com.example.StudyWithMe.services.post.IPostService;
+import com.example.StudyWithMe.services.socialmedia.post.IPostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,7 +22,7 @@ public class PostController {
     private final IPostService postService;
     @PostMapping("/createPost")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<?> createPost(@RequestBody PostDTO post) {
+    public ResponseEntity<?> createPost(@ModelAttribute PostDTO post) {
         PostResponse newPost = postService.createPost(post);
         return ResponseEntity.ok(ResponseObject.success(HttpStatus.OK,"Create post successully",newPost));
     }

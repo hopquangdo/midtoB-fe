@@ -1,18 +1,13 @@
-package com.example.StudyWithMe.services.post;
+package com.example.StudyWithMe.services.socialmedia.like;
 
-import com.example.StudyWithMe.models.auth.User;
-import com.example.StudyWithMe.models.post.Like;
-import com.example.StudyWithMe.models.post.Post;
-import com.example.StudyWithMe.repositories.post.LikeRepository;
-import com.example.StudyWithMe.responses.like.LikeResponse;
+import com.example.StudyWithMe.models.user.auth.User;
+import com.example.StudyWithMe.models.socialmedia.like.Like;
+import com.example.StudyWithMe.models.socialmedia.post.Post;
+import com.example.StudyWithMe.repositories.socialmedia.like.LikeRepository;
 import com.example.StudyWithMe.services.auth.IAuthService;
+import com.example.StudyWithMe.services.socialmedia.post.IPostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

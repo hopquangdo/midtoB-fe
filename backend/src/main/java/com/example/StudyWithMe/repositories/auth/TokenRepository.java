@@ -1,5 +1,5 @@
 package com.example.StudyWithMe.repositories.auth;
-import com.example.StudyWithMe.models.auth.Token;
+import com.example.StudyWithMe.models.user.auth.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.RequestParam;

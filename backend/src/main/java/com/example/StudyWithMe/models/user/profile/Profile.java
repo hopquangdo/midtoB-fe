@@ -1,4 +1,4 @@
-package com.example.StudyWithMe.models.user;
+package com.example.StudyWithMe.models.user.profile;
 import com.example.StudyWithMe.models.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;

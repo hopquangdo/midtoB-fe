@@ -2,11 +2,10 @@ package com.example.StudyWithMe.services.user;
 import com.example.StudyWithMe.dataTransferObjects.user.ProfileDTO;
 import com.example.StudyWithMe.dataTransferObjects.user.UpdateProfileDTO;
 import com.example.StudyWithMe.exceptions.DataNotFoundException;
-import com.example.StudyWithMe.models.auth.User;
-import com.example.StudyWithMe.models.user.Profile;
+import com.example.StudyWithMe.models.user.auth.User;
+import com.example.StudyWithMe.models.user.profile.Profile;
 import com.example.StudyWithMe.repositories.user.ProfileRepository;
 import com.example.StudyWithMe.responses.user.ProfileDetailResponse;
-import com.example.StudyWithMe.services.attachment.IAttachmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +14,6 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class UserService implements IUserService{
-    private final IAttachmentService attachmentService;
     private final ProfileRepository profileRepository;
     @Transactional
     @Override
@@ -29,13 +27,13 @@ public class UserService implements IUserService{
                 .dateOfBirth(profileDTO.getDateOfBirth())
                 .build();
         if (profileDTO.getAvatar() != null && !profileDTO.getAvatar().isEmpty()) {
-            String avatarUrl = attachmentService.uploadFile(profileDTO.getAvatar());
+            String avatarUrl = null;
             newProfile.setAvatar(avatarUrl);
         } else {
             newProfile.setAvatar(null);
         }
         if (profileDTO.getBanner() != null && !profileDTO.getBanner().isEmpty()){
-            String bannerUrl = attachmentService.uploadFile(profileDTO.getBanner());
+            String bannerUrl = null;
             newProfile.setBanner(bannerUrl);
         } else {
             newProfile.setBanner(null);
@@ -67,11 +65,9 @@ public class UserService implements IUserService{
             profileUser.setAddress(profileDTO.getAddress());
         }
         if (profileDTO.getAvatar()!=null && !profileDTO.getAvatar().equals(profileUser.getAvatar())){
-            attachmentService.deleteFile(profileUser.getAvatar());
             profileUser.setAvatar(profileDTO.getAvatar());
         }
         if (profileDTO.getBanner()!=null && !profileDTO.getBanner().equals(profileUser.getBanner())){
-            attachmentService.deleteFile(profileUser.getBanner());
             profileUser.setBanner(profileDTO.getBanner());
         }
         profileRepository.save(profileUser);

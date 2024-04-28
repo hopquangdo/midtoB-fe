@@ -1,8 +1,8 @@
-package com.example.StudyWithMe.repositories.post;
+package com.example.StudyWithMe.repositories.socialmedia.like;
 
-import com.example.StudyWithMe.models.auth.User;
-import com.example.StudyWithMe.models.post.Like;
-import com.example.StudyWithMe.models.post.Post;
+import com.example.StudyWithMe.models.user.auth.User;
+import com.example.StudyWithMe.models.socialmedia.like.Like;
+import com.example.StudyWithMe.models.socialmedia.post.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

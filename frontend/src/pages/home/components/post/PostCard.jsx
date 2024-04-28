@@ -43,7 +43,7 @@ const PostCard = ({post}) => {
                         <p>{post?.content}</p>
                         <div className='flex flex-row overflow-x-auto'>
                             {post?.attachments?.map((attachment)=>(
-                                <img key={attachment.attachmentId} src={attachment.attachmentUrl} className="mt-2"/>
+                                <img src={attachment} className="mt-2"/>
                             ) )}
                         </div>
                     </div>

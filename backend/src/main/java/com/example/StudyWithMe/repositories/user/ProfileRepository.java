@@ -1,5 +1,5 @@
 package com.example.StudyWithMe.repositories.user;
-import com.example.StudyWithMe.models.user.Profile;
+import com.example.StudyWithMe.models.user.profile.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;

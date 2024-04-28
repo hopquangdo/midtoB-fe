@@ -1,7 +1,6 @@
 package com.example.StudyWithMe.responses.like;
 
-import com.example.StudyWithMe.models.post.Like;
-import com.example.StudyWithMe.repositories.post.LikeRepository;
+import com.example.StudyWithMe.models.socialmedia.like.Like;
 import lombok.Builder;
 import lombok.Data;
 

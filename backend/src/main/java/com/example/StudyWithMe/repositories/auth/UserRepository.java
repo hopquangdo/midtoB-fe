@@ -1,6 +1,6 @@
 package com.example.StudyWithMe.repositories.auth;
 
-import com.example.StudyWithMe.models.auth.User;
+import com.example.StudyWithMe.models.user.auth.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,9 +1,11 @@
-package com.example.StudyWithMe.models.post;
+package com.example.StudyWithMe.models.socialmedia.post;
 
 import com.example.StudyWithMe.models.BaseEntity;
-import com.example.StudyWithMe.models.auth.User;
+import com.example.StudyWithMe.models.user.auth.User;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "posts")
@@ -22,4 +24,6 @@ public class Post extends BaseEntity {
     private User user;
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Attachment> attachments;
 }

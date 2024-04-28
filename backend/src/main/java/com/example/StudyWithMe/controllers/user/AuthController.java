@@ -1,4 +1,4 @@
-package com.example.StudyWithMe.controllers;
+package com.example.StudyWithMe.controllers.user;
 
 import com.example.StudyWithMe.dataTransferObjects.auth.LoginDTO;
 import com.example.StudyWithMe.dataTransferObjects.auth.ChangePasswordRequest;
