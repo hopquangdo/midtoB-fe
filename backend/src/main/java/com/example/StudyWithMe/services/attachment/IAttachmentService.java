@@ -4,5 +4,5 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface IAttachmentService {
     String upload(MultipartFile multipartFile);
-    void delete(String fileName);
+    void delete(String fileUrl);
 }

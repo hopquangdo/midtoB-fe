@@ -25,7 +25,7 @@ const LoginPage = () => {
       return;
     }
     loginUser({
-      email: user.userName,
+      userName: user.userName,
       password: user.password,
     }, dispatch);
   }
@@ -53,9 +53,10 @@ const LoginPage = () => {
             </h1>
             <form method="POST" className="space-y-4">
               <div>
-                <label htmlFor="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <label htmlFor="text" class="block text-sm font-medium text-gray-700">Email / Username</label>
                 <input type="text" id="email" name="email"
                   value={user.userName}
+                  placeholder=""
                   onChange={(e) => setUser({ ...user, userName: e.target.value })}
                   class="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300" />
               </div>

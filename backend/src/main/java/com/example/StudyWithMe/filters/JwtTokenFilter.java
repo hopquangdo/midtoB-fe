@@ -55,9 +55,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String requestPath = request.getServletPath();
         String requestMethod = request.getMethod();
         final List<Pair<String, String>> bypassRoutes  = Arrays.asList(
-                Pair.of(String.format("/%s/file",apiPrefix), "GET"),
-                Pair.of(String.format("/%s/task/test",apiPrefix),"POST"),
-                Pair.of(String.format("/%s/task", apiPrefix), "GET"),
+                Pair.of(String.format("/%s/post",apiPrefix),"GET"),
+                Pair.of(String.format("/%s/like",apiPrefix),"GET"),
+
 
                 Pair.of(String.format("/%s/user/profile/",apiPrefix),"GET"),
 

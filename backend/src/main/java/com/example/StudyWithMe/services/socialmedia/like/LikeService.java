@@ -9,18 +9,18 @@ import com.example.StudyWithMe.services.socialmedia.post.IPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class LikeService implements ILikeService {
     private final LikeRepository likeRepository;
     private final IAuthService authService;
-    private final IPostService postService;
     @Override
-    public Like likePost(Long postId) {
+    public Like likePost(Post post) {
         User existingUser = authService.getUserDetail();
-        Post existingPost = postService.getPostDetail(postId);
         Like newLike = Like.builder()
-                .post(existingPost)
+                .post(post)
                 .user(existingUser)
                 .build();
         likeRepository.save(newLike);
@@ -28,17 +28,16 @@ public class LikeService implements ILikeService {
     }
 
     @Override
-    public void unlikePost(Long postId) {
+    public void unlikePost(Post post) {
         User existingUser = authService.getUserDetail();
-        Post existingPost = postService.getPostDetail(postId);
-        likeRepository.deleteByUserAndPost(existingUser,existingPost);
+        likeRepository.deleteByUserAndPost(existingUser.getUserId(),post.getPostId());
     }
     @Override
-    public long getTotalLikeForPost(Long postId) {
-        return likeRepository.countByPostId(postId);
+    public List<Like> getAllLikeForPost(Post post) {
+        return likeRepository.findAllByPost(post);
     }
     @Override
-    public void deleteAllLikeForPost(Long postId){
-        likeRepository.deleteAllLikeForPost(postId);
+    public void deleteAllLikeForPost(Post post){
+        likeRepository.deleteAllLikeForPost(post.getPostId());
     }
 }

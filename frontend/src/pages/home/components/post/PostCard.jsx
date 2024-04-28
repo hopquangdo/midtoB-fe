@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Avatar from "react-avatar";
 import { FaRegComment } from "react-icons/fa";
 import { MdOutlineDeleteOutline } from "react-icons/md";
@@ -9,25 +9,57 @@ import { useSelector, useDispatch } from "react-redux";
 import Comment from "../comment/Comment";
 import { useNavigate } from 'react-router-dom';
 import notify from '../../../../components/notification/Notification';
-const PostCard = ({post}) => {
+import emotionLikeApi from '../../../../services/apis/social-media/emotionLikeApi';
+import postApi from '../../../../services/apis/social-media/postApi';
+const PostCard = ({post,deletePost}) => {
     const navigate = useNavigate();
     const authUser = useSelector((state) => state.user.auth);
-    const [onLike,setOnLike] = useState(false);
+
+    const [onLike,setOnLike] = useState(post?.likes?.some(like => like?.userId === authUser?.currentUser?.userId));
     const [onComment,setOnComment] = useState(false);
+
+    const [totalLike,setTotalLike] = useState(post?.likes?.length || 0);
+    const [totalComment,setTotalComment] = useState(post?.comment?.length || 0);
+
+    const fetchLike = async () => {
+        try {
+            const response = await emotionLikeApi.likePost(post?.postId);
+            console.log(response);
+        } catch (err){
+            console.log(err);
+        }
+    }
+    const fetchUnLike = async () => {
+        try {
+            const response = await emotionLikeApi.unlikePost(post?.postId);
+            console.log(response);
+        } catch (err){
+            console.log(err);
+        }
+    }
     const handeLike =  () => {
         if (!authUser.isLoggedIn){
             navigate("/login");
             notify.warn("Vui lòng đăng nhập!");
         }
         if (onLike){
-            console.log("Dislike");
+            fetchUnLike();
+            setTotalLike(totalLike -1);
         } else {
-            console.log("like");
+            fetchLike();
+            setTotalLike(totalLike + 1);
         }
         setOnLike(!onLike);
     };
-    const deleteTweetHandler = async (id) => {
-
+    const handleDeletePost = async ()  => {
+        try {
+            const response = await postApi.deletePost(post?.postId);
+            deletePost(post?.postId);
+            console.log(response);
+            notify.success("Xóa bài viết thành công!");
+        } catch(err){
+            console.log(err);
+        }
     };
 
     return (
@@ -52,13 +84,13 @@ const PostCard = ({post}) => {
                             <div onClick={handeLike} className='p-2 hover:bg-pink-200 rounded-full cursor-pointer'>
                                 {onLike ? (<FaHeart size="24px" color='red'/>):(<CiHeart size="24px"/>)}
                             </div>
-                            <p>{post?.totalLike}</p>
+                            <p>{totalLike}</p>
                         </div>
                         <div className='flex items-center' onClick={() => {setOnComment(!onComment)}}>
                             <div className='p-2 hover:bg-green-200 rounded-full cursor-pointer'>
                                 <FaRegComment size="20px" />
                             </div>
-                            <p>{post?.comments?.length}</p>
+                            <p>{totalComment}</p>
                         </div>
                         <div className='flex items-center'>
                             <div className='p-2 hover:bg-yellow-200 rounded-full cursor-pointer'>
@@ -67,7 +99,7 @@ const PostCard = ({post}) => {
                             <p>0</p>
                         </div>
                         {authUser.currentUser.userId === post?.poster.userId && (
-                            <div onClick={() => deleteTweetHandler(post?.postId)} className='flex items-center'>
+                            <div onClick={handleDeletePost} className='flex items-center'>
                                 <div className='p-2 hover:bg-red-300 rounded-full cursor-pointer'>
                                     <MdOutlineDeleteOutline size="24px" />
                                 </div>

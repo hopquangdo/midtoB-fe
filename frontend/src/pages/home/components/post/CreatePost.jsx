@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import Avatar from "react-avatar";
 import { CiImageOn, CiVideoOn, CiLocationOn,CiFaceSmile } from "react-icons/ci";
 import { useSelector } from "react-redux";
-import postApi from "../../../../services/apis/postApi";
 import notify from '../../../../components/notification/Notification';
 import Loading from '../../../../components/loading/Loading';
-
+import postApi from '../../../../services/apis/social-media/postApi';
 const CreatePost = ({ updatePost }) => {
     const currentUser = useSelector((state) => state.user.auth.currentUser);
     const [content, setContent] = useState("");

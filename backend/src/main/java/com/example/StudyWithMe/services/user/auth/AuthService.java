@@ -16,6 +16,7 @@ import com.example.StudyWithMe.responses.user.auth.AuthResponse;
 import com.example.StudyWithMe.responses.user.auth.TokenResponse;
 import com.example.StudyWithMe.responses.user.profile.ProfileDetailResponse;
 import com.example.StudyWithMe.services.user.profile.IUserService;
+import com.example.StudyWithMe.validations.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,6 +44,7 @@ public class AuthService implements IAuthService {
     private final JwtTokenUtils jwtTokenUtils;
     private final ITokenService tokenService;
     private final IUserService userService;
+    private final ValidationUtils validationUtils;
     @Transactional
     @Override
     public AuthResponse register(RegisterDTO registerDTO, String userAgent) {
@@ -83,12 +85,12 @@ public class AuthService implements IAuthService {
     public AuthResponse login(LoginDTO loginDTO, String userAgent) {
         Optional<User> optionalUser = Optional.empty();
         String subject = "";
-        if (loginDTO.getUserName() != null && !loginDTO.getUserName().isEmpty()){
+        if (!validationUtils.isValidEmail(loginDTO.getUserName()) && loginDTO.getUserName() != null && !loginDTO.getUserName().isEmpty()){
             subject = loginDTO.getUserName();
             optionalUser = userRepository.findByUserName(subject);
         }
-        if (optionalUser.isEmpty() && loginDTO.getEmail() != null){
-            subject = loginDTO.getEmail();
+        if (optionalUser.isEmpty() && validationUtils.isValidEmail(loginDTO.getUserName()) && loginDTO.getUserName() != null){
+            subject = loginDTO.getUserName();
             optionalUser = userRepository.findByEmail(subject);
         }
         if (optionalUser.isEmpty()) {
@@ -104,6 +106,7 @@ public class AuthService implements IAuthService {
                 existingUser.getAuthorities()
         );
         authenticationManager.authenticate(authenticationToken);
+        System.out.println(existingUser.getUsername());
         String newToken = jwtTokenUtils.generateToken(existingUser);
         TokenResponse tokenResponse = tokenService.addToken(existingUser,newToken,userAgent);
         return AuthResponse.builder()
@@ -151,16 +154,21 @@ public class AuthService implements IAuthService {
     @Override
     public UserDetails authenticationToken(String token) {
         tokenService.validateToken(token);
-        String userName = jwtTokenUtils.extractEmail(token);
-        User existingUser = userRepository.findByUserName(userName)
-                .orElseThrow(() -> new DataNotFoundException("Cannot found user with email " + userName));
+        String userName = jwtTokenUtils.extractUserName(token);
+        System.out.println(userName);
+        User existingUser = null;
+        if (!validationUtils.isValidEmail(userName)){
+            existingUser = userRepository.findByUserName(userName)
+                    .orElseThrow(() -> new DataNotFoundException("Cannot found user with userName " + userName));
+        }
+        if (existingUser == null && validationUtils.isValidEmail(userName)){
+            existingUser = userRepository.findByEmail(userName)
+                    .orElseThrow(()->new DataNotFoundException("Cannot found user with email " + userName));
+        }
         if (!existingUser.isActive()){
             throw new InvalidParamException("User is not active");
         }
-        return User.builder()
-                .email(existingUser.getEmail())
-                .roles(existingUser.getRoles())
-                .build();
+        return existingUser;
     }
     @Override
     public AuthResponse refreshToken(String refreshToken) {

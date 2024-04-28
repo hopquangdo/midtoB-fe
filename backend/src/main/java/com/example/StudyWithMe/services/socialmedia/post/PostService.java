@@ -2,6 +2,7 @@ package com.example.StudyWithMe.services.socialmedia.post;
 
 import com.example.StudyWithMe.dataTransferObjects.socialmedia.post.PostDTO;
 import com.example.StudyWithMe.exceptions.DataNotFoundException;
+import com.example.StudyWithMe.models.socialmedia.like.Like;
 import com.example.StudyWithMe.models.user.auth.User;
 import com.example.StudyWithMe.models.socialmedia.post.Post;
 import com.example.StudyWithMe.models.user.profile.Profile;
@@ -61,7 +62,7 @@ public class PostService implements IPostService {
             return attachmentRepository.save(postAttachment);
         }).collect(Collectors.toList());
         Profile profile = userService.getProfile(poster.getUserId());
-        return PostResponse.fromPost(UserCardResponse.fromUserCard(poster, profile), newPost,attachments);
+        return PostResponse.fromPost(UserCardResponse.fromUserCard(poster, profile), newPost,new ArrayList<>(),attachments);
     }
 
     @Override
@@ -72,14 +73,16 @@ public class PostService implements IPostService {
         List<PostResponse> postResponses = postList.stream().map(post -> {
             User user = authService.getUser(post.getUser().getUserId());
             Profile profile = userService.getProfile(post.getUser().getUserId());
-
+            List<Like> likes = likeService.getAllLikeForPost(post);
             List<String> attachmentUrls = post.getAttachments().stream()
                     .map(Attachment::getAttachmentUrl)
                     .collect(Collectors.toList());
-            return PostResponse.fromPost(
-                    UserCardResponse.fromUserCard(user, profile),
-                    post,
-                    attachmentUrls);
+            return PostResponse.fromPost(UserCardResponse.builder()
+                            .userId(user.getUserId())
+                            .userName(user.getUsername())
+                            .fullName(profile.getFirstName() + " " + profile.getLastName())
+                            .avatar(profile.getAvatar())
+                    .build(),post,likes,attachmentUrls);
         }).collect(Collectors.toList());
         return postResponses;
     }
@@ -92,7 +95,16 @@ public class PostService implements IPostService {
     }
     @Override
     public void deletePost(Long postId){
-        likeService.deleteAllLikeForPost(postId);
+        Post existingPost = postRepository.findById(postId).orElse(null);
+        List<Attachment> attachments = attachmentRepository.findAllByPostId(postId);
+        if (!attachments.isEmpty()){
+            attachments.stream().map(attachment -> {
+                attachmentService.delete(attachment.getAttachmentUrl());
+                return null;
+            }).toList();
+        }
+        attachmentRepository.deleteAll(attachments);
+        likeService.deleteAllLikeForPost(existingPost);
         postRepository.deleteById(postId);
     }
 }

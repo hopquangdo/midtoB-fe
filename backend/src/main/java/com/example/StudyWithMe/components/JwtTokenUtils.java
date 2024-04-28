@@ -60,17 +60,17 @@ public class JwtTokenUtils {
     }
     public String validateToken(String token) {
         try {
-            String email = extractClaim(token,Claims::getSubject);
+            String userName = extractClaim(token,Claims::getSubject);
             Date expirationDate = this.extractClaim(token,Claims::getExpiration);
             if (expirationDate.before(new Date())) {
                 throw new TokenExpiredException("Token has expired");
             }
-            return email;
+            return userName;
         } catch (JwtException e) {
             throw new JwtException("Invalid token: " + e.getMessage());
         }
     }
-    public String extractEmail(String token) {
+    public String extractUserName(String token) {
         return extractClaim(token,Claims::getSubject);
     }
     public boolean isExpired(String token) {

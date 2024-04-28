@@ -19,17 +19,16 @@ import java.util.UUID;
 
 @Service
 public class AttachmentService implements IAttachmentService{
-    private static final String BUCKET_NAME = "pjstudywithme.appspot.com";
 
     private String uploadFile(File file, String fileName) throws IOException {
-        BlobId blobId = BlobId.of(BUCKET_NAME, fileName);
+        BlobId blobId = BlobId.of("pjstudywithme.appspot.com", fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
         InputStream inputStream = AttachmentService.class.getClassLoader().getResourceAsStream("firebase-key.json");
         Credentials credentials = GoogleCredentials.fromStream(inputStream);
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
 
-        String DOWNLOAD_URL = String.format("https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media",BUCKET_NAME);
+        String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/pjstudywithme.appspot.com/o/%s?alt=media";
         return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
     }
 
@@ -62,14 +61,24 @@ public class AttachmentService implements IAttachmentService{
         }
     }
     @Override
-    public void delete(String fileName) {
+    public void delete(String fileUrl) {
+
         Storage storage = StorageOptions.getDefaultInstance().getService();
-        BlobId blobId = BlobId.of(BUCKET_NAME, fileName);
+        String fileName = "77c91d7d-e1e3-4de3-93bb-06c02379d191.jpg";
+        System.out.println(fileName);
+        BlobId blobId = BlobId.of("pjstudywithme.appspot.com", "77c91d7d-e1e3-4de3-93bb-06c02379d191.jpg");
         boolean deleted = storage.delete(blobId);
         if (deleted) {
             System.out.println("File " + fileName + " has been deleted successfully.");
         } else {
             System.out.println("Failed to delete file " + fileName);
         }
+    }
+    private static String extractFileName(String url) {
+        int lastIndex = url.lastIndexOf('/');
+        if (lastIndex != -1 && lastIndex < url.length() - 1) {
+            return url.substring(lastIndex + 1);
+        }
+        return null;
     }
 }

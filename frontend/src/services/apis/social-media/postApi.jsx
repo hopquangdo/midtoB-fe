@@ -1,4 +1,4 @@
-import axiosClient from "./apiClient";
+import axiosClient from "../apiClient";
 
 class PostApi {
     createPost =  (formData) => {
@@ -20,6 +20,11 @@ class PostApi {
     getPostDetail = (postId) => {
         const url = `/post/${postId}`;
         return axiosClient.get(url);
+    }
+
+    deletePost = (postId) => {
+        const url = `/post?postId=${postId}`;
+        return axiosClient.delete(url);
     }
 }
 

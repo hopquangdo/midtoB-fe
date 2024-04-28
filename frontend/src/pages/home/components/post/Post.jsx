@@ -4,7 +4,7 @@ import PostCard from "./PostCard";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import notify from "../../../../components/notification/Notification";
-import postApi from "../../../../services/apis/postApi";
+import postApi from "../../../../services/apis/social-media/postApi";
 const Post = () => {
     const navigate = useNavigate();
     const currentUser = useSelector((state) => state.user.auth);
@@ -39,6 +39,10 @@ const Post = () => {
         }
         setActive(!isActive);
     }
+    const deletePost = (postId) => {
+        const updatedPosts = posts.filter(post => post.postId !== postId);
+        setPosts(updatedPosts);
+    }
     return (
         <div className="flex flex-col items-center">
             <div className="w-full max-w-xl">
@@ -52,7 +56,7 @@ const Post = () => {
                 </div>
                 <CreatePost updatePost={updatePostList}/>
                 {posts?.map((post) => (
-                    <PostCard key={post.postId} post={post}/>
+                    <PostCard key={post.postId} post={post} deletePost={deletePost}/>
                 ))}
             </div>
         </div>

@@ -11,8 +11,6 @@ import lombok.Getter;
 public class LoginDTO {
     @Size(min = 6, message = "Username must be at least 6 characters")
     private String userName;
-    @Email
-    private String email;
     @Size(min = 8, message = "Password must be at least 8 characters")
     @NotBlank(message = "Password cannot be blank")
     private String password;
