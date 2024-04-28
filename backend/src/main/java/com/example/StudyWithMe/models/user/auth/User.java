@@ -53,7 +53,12 @@ public class User extends BaseEntity implements UserDetails  {
     }
     @Override
     public String getUsername() {
-        return email;
+        if (userName != null && !userName.isEmpty()) {
+            return phoneNumber;
+        } else if (email != null && !email.isEmpty()) {
+            return email;
+        }
+        return "";
     }
     @Override
     public boolean isAccountNonExpired() {

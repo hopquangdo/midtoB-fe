@@ -1,9 +1,9 @@
 package com.example.StudyWithMe.controllers.socailmedia;
 
-import com.example.StudyWithMe.dataTransferObjects.post.PostDTO;
+import com.example.StudyWithMe.dataTransferObjects.socialmedia.post.PostDTO;
 import com.example.StudyWithMe.models.socialmedia.post.Post;
 import com.example.StudyWithMe.responses.ResponseObject;
-import com.example.StudyWithMe.responses.post.PostResponse;
+import com.example.StudyWithMe.responses.socialmedia.post.PostResponse;
 import com.example.StudyWithMe.services.socialmedia.post.IPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,5 +39,12 @@ public class PostController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(post);
+    }
+    @DeleteMapping("")
+    public ResponseEntity<?> deletePost(
+            @RequestParam Long postId
+    ){
+        postService.deletePost(postId);
+        return ResponseEntity.ok(ResponseObject.success(HttpStatus.OK,"Delete post successfully",null));
     }
 }

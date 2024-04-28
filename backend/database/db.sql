@@ -79,7 +79,7 @@ CREATE TABLE posts (
     created_at DATETIME,
     updated_at DATETIME,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
+) AUTO_INCREMENT = 1000000;
 CREATE TABLE post_attachments(
     attachment_id INT AUTO_INCREMENT PRIMARY KEY,
     post_id INT,

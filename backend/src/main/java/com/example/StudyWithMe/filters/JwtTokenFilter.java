@@ -1,5 +1,5 @@
 package com.example.StudyWithMe.filters;
-import com.example.StudyWithMe.services.auth.IAuthService;
+import com.example.StudyWithMe.services.user.auth.IAuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;

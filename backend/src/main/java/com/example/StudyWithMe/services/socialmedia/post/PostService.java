@@ -1,17 +1,18 @@
 package com.example.StudyWithMe.services.socialmedia.post;
 
-import com.example.StudyWithMe.dataTransferObjects.post.PostDTO;
+import com.example.StudyWithMe.dataTransferObjects.socialmedia.post.PostDTO;
 import com.example.StudyWithMe.exceptions.DataNotFoundException;
 import com.example.StudyWithMe.models.user.auth.User;
 import com.example.StudyWithMe.models.socialmedia.post.Post;
 import com.example.StudyWithMe.models.user.profile.Profile;
 import com.example.StudyWithMe.repositories.socialmedia.post.AttachmentRepository;
 import com.example.StudyWithMe.repositories.socialmedia.post.PostRepository;
-import com.example.StudyWithMe.responses.post.PostResponse;
-import com.example.StudyWithMe.responses.user.UserCardResponse;
+import com.example.StudyWithMe.responses.socialmedia.post.PostResponse;
+import com.example.StudyWithMe.responses.user.profile.UserCardResponse;
 import com.example.StudyWithMe.services.attachment.IAttachmentService;
-import com.example.StudyWithMe.services.auth.IAuthService;
-import com.example.StudyWithMe.services.user.IUserService;
+import com.example.StudyWithMe.services.socialmedia.like.ILikeService;
+import com.example.StudyWithMe.services.user.auth.IAuthService;
+import com.example.StudyWithMe.services.user.profile.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +36,7 @@ public class PostService implements IPostService {
     private final IAuthService authService;
     private final IUserService userService;
     private final IAttachmentService attachmentService;
+    private final ILikeService likeService;
     @Override
     public PostResponse createPost(PostDTO postDTO) {
         User poster = authService.getUserDetail();
@@ -87,5 +89,10 @@ public class PostService implements IPostService {
     public Post getPostDetail(Long postId) {
         Optional<Post> postOptional = postRepository.findById(postId);
         return postOptional.orElseThrow(() -> new DataNotFoundException("Post not found"));
+    }
+    @Override
+    public void deletePost(Long postId){
+        likeService.deleteAllLikeForPost(postId);
+        postRepository.deleteById(postId);
     }
 }

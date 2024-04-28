@@ -6,4 +6,5 @@ public interface ILikeService {
     Like likePost(Long postId);
     void unlikePost(Long postId);
     long getTotalLikeForPost(Long postId);
+    void deleteAllLikeForPost(Long postId);
 }

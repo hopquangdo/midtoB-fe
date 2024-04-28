@@ -1,11 +1,11 @@
 package com.example.StudyWithMe.controllers.user;
 
-import com.example.StudyWithMe.dataTransferObjects.auth.LoginDTO;
-import com.example.StudyWithMe.dataTransferObjects.auth.ChangePasswordRequest;
-import com.example.StudyWithMe.dataTransferObjects.auth.RegisterDTO;
+import com.example.StudyWithMe.dataTransferObjects.user.auth.LoginDTO;
+import com.example.StudyWithMe.dataTransferObjects.user.auth.ChangePasswordRequest;
+import com.example.StudyWithMe.dataTransferObjects.user.auth.RegisterDTO;
 import com.example.StudyWithMe.responses.ResponseObject;
-import com.example.StudyWithMe.responses.auth.AuthResponse;
-import com.example.StudyWithMe.services.auth.IAuthService;
+import com.example.StudyWithMe.responses.user.auth.AuthResponse;
+import com.example.StudyWithMe.services.user.auth.IAuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class AuthController {
     }
     @PostMapping("/register")
     public ResponseEntity<?> register(
-            @Valid @RequestBody RegisterDTO registerDTO,
+            @ModelAttribute RegisterDTO registerDTO,
             HttpServletRequest request,
             BindingResult result
     ) {

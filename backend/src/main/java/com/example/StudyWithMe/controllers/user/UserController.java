@@ -1,12 +1,12 @@
 package com.example.StudyWithMe.controllers.user;
 
-import com.example.StudyWithMe.dataTransferObjects.user.UpdateProfileDTO;
+import com.example.StudyWithMe.dataTransferObjects.user.profile.UpdateProfileDTO;
 import com.example.StudyWithMe.models.user.auth.User;
 import com.example.StudyWithMe.models.user.profile.Profile;
 import com.example.StudyWithMe.responses.ResponseObject;
-import com.example.StudyWithMe.responses.user.ProfileDetailResponse;
-import com.example.StudyWithMe.services.auth.IAuthService;
-import com.example.StudyWithMe.services.user.IUserService;
+import com.example.StudyWithMe.responses.user.profile.ProfileDetailResponse;
+import com.example.StudyWithMe.services.user.auth.IAuthService;
+import com.example.StudyWithMe.services.user.profile.IUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

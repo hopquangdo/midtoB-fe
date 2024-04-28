@@ -4,7 +4,7 @@ import com.example.StudyWithMe.models.user.auth.User;
 import com.example.StudyWithMe.models.socialmedia.like.Like;
 import com.example.StudyWithMe.models.socialmedia.post.Post;
 import com.example.StudyWithMe.repositories.socialmedia.like.LikeRepository;
-import com.example.StudyWithMe.services.auth.IAuthService;
+import com.example.StudyWithMe.services.user.auth.IAuthService;
 import com.example.StudyWithMe.services.socialmedia.post.IPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,5 +36,9 @@ public class LikeService implements ILikeService {
     @Override
     public long getTotalLikeForPost(Long postId) {
         return likeRepository.countByPostId(postId);
+    }
+    @Override
+    public void deleteAllLikeForPost(Long postId){
+        likeRepository.deleteAllLikeForPost(postId);
     }
 }

@@ -1,5 +1,5 @@
 package com.example.StudyWithMe.configurations;
-import com.example.StudyWithMe.repositories.auth.UserRepository;
+import com.example.StudyWithMe.repositories.user.auth.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.example.StudyWithMe.models.user.auth.User;
+import java.util.Optional;
 @Configuration
 public class SecurityConfig {
     private final UserRepository userRepository;
@@ -18,9 +21,17 @@ public class SecurityConfig {
     }
     @Bean
     public UserDetailsService userDetailsService(){
-        return userName -> userRepository.findByUserName(userName)
-                    .orElseThrow(()->
-                            new UsernameNotFoundException("Cannot found user with userName " + userName));
+        return subject -> {
+            Optional<User> userByUserName = userRepository.findByUserName(subject);
+            if (userByUserName.isPresent()){
+                return  userByUserName.get();
+            }
+            Optional<User> userByEmail = userRepository.findByEmail(subject);
+            if (userByEmail.isPresent()) {
+                return userByEmail.get();
+            }
+            throw new UsernameNotFoundException("User not found with subject: " + subject);
+        };
     }
     @Bean
     public PasswordEncoder passwordEncoder(){
