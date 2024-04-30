@@ -89,6 +89,15 @@ CREATE TABLE post_attachments(
     updated_at DATETIME,
     FOREIGN KEY (post_id) REFERENCES posts(post_id)
 ) AUTO_INCREMENT = 1000000;
+CREATE TABLE likes (
+    like_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    post_id INT,
+    created_at DATETIME,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (post_id) REFERENCES posts(post_id)
+);
+
 CREATE TABLE comments (
     comment_id INT AUTO_INCREMENT PRIMARY KEY,
     post_id INT,
@@ -98,7 +107,16 @@ CREATE TABLE comments (
     updated_at DATETIME,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (post_id) REFERENCES posts(post_id)
-);
+) AUTO_INCREMENT = 1000000;
+CREATE TABLE comment_attachments(
+    attachment_id INT AUTO_INCREMENT PRIMARY KEY,
+    comment_id INT,
+    attachment_type VARCHAR(20),
+    attachment_url TEXT,
+    created_at DATETIME,
+    updated_at DATETIME,
+    FOREIGN KEY (comment_id) REFERENCES comments(comment_id)
+) AUTO_INCREMENT = 1000000;
 CREATE TABLE reply_comments(
     reply_comment_id INT AUTO_INCREMENT PRIMARY KEY,
     comment_id INT,
@@ -108,15 +126,16 @@ CREATE TABLE reply_comments(
     updated_at DATETIME,
     FOREIGN KEY (comment_id) REFERENCES comments(comment_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
-CREATE TABLE likes (
-    like_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    post_id INT,
+) AUTO_INCREMENT = 1000000;
+CREATE TABLE reply_comment_attachments(
+    attachment_id INT AUTO_INCREMENT PRIMARY KEY,
+    reply_comment_id INT,
+    attachment_type VARCHAR(20),
+    attachment_url TEXT,
     created_at DATETIME,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (post_id) REFERENCES posts(post_id)
-);
+    updated_at DATETIME,
+    FOREIGN KEY (reply_comment_id) REFERENCES reply_comments(reply_comment_id)
+) AUTO_INCREMENT = 1000000;
 
 -- DATABASE CHAT
 -- DATABASE STUDY PAGE

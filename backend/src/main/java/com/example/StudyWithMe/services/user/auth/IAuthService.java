@@ -15,10 +15,9 @@ public interface IAuthService {
     void logout();
     AuthResponse changePassword(ChangePasswordRequest passwordRequest);
     void deleteUser(Long userId);
-    List<User> getAllUser(PageRequest pageRequest);
-    List<User> getAllUserForRole(String role,PageRequest pageRequest);
     UserDetails authenticationToken(String token);
     AuthResponse refreshToken(String refreshToken);
-    User getUser(Long userId);
-    User getUserDetail();
+    User getCurrentUser();
+    User getUserByUserId(Long userId);
+    User getUserByUserName(String userName);
 }

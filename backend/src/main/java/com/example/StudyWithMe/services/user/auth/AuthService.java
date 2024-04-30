@@ -118,7 +118,7 @@ public class AuthService implements IAuthService {
     }
     @Override
     public void logout() {
-        String userName = getUserDetail().getUsername();
+        String userName = getCurrentUser().getUsername();
         User existingUser = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new AccessDeniedException("User with username " + userName + " not found."));
         tokenService.deleteToken(existingUser);
@@ -128,7 +128,7 @@ public class AuthService implements IAuthService {
         if (!passwordRequest.getCurrentPassword().equals(passwordRequest.getNewPassword())){
             throw new InvalidParamException("New password must be different from the current password!");
         }
-        String userName = getUserDetail().getUsername();
+        String userName = getCurrentUser().getUsername();
         User existingUser = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new AccessDeniedException("User with username " + userName + " not found."));
         if (!passwordEncoder.matches(passwordRequest.getCurrentPassword(), existingUser.getPassword())){
@@ -172,7 +172,7 @@ public class AuthService implements IAuthService {
     }
     @Override
     public AuthResponse refreshToken(String refreshToken) {
-        String userName = getUserDetail().getUsername();
+        String userName = getCurrentUser().getUsername();
         User existingUser = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new DataNotFoundException(""));
 
@@ -187,33 +187,26 @@ public class AuthService implements IAuthService {
                 .build();
     }
     @Override
-    public List<User> getAllUser(PageRequest pageRequest) {
-        Page<User> userPage = userRepository.findAll(pageRequest);
-        return userPage.getContent();
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof User) {
+            return (User) authentication.getPrincipal();
+        } else {
+            return null;
+        }
     }
     @Override
-    public List<User> getAllUserForRole(String role,PageRequest pageRequest){
-        Page<User> userPage = userRepository.findAllUserByRole(role,pageRequest);
-        return userPage.getContent();
-    }
-    @Override
-    public User getUser(Long userId){
+    public User getUserByUserId(Long userId){
         return userRepository.findById(userId)
                 .orElseThrow(()->new DataNotFoundException(""));
     }
     @Override
-    public User getUserDetail() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()) {
-            // Handle case where user is not authenticated
-            return null;
-        }
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof UserDetails) {
-            UserDetails userDetail = (UserDetails) principal;
-            return userRepository.findByUserName(userDetail.getUsername())
+    public User getUserByUserName(String userName) {
+        if (validationUtils.isValidEmail(userName)){
+            return userRepository.findByEmail(userName)
                     .orElseThrow(()->new DataNotFoundException(""));
         }
-        return null;
+        return userRepository.findByUserName(userName)
+                .orElseThrow(()->new DataNotFoundException(""));
     }
 }

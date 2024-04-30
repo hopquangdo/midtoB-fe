@@ -25,5 +25,5 @@ public class Post extends BaseEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<Attachment> attachments;
+    private List<PostAttachment> attachments;
 }

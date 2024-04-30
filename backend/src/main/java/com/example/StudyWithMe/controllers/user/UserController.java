@@ -37,7 +37,7 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<?> updateProfile(
             @RequestBody UpdateProfileDTO updateProfileDTO) throws IOException {
-        User existingUser = authService.getUserDetail();
+        User existingUser = authService.getCurrentUser();
         ProfileDetailResponse profileDetailResponse = userService.updateProfile(existingUser,updateProfileDTO);
         return ResponseEntity.ok((ResponseObject.success(HttpStatus.OK,
                 "update profile successfully!",

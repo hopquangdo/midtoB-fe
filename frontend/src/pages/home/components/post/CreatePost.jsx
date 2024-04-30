@@ -22,7 +22,7 @@ const CreatePost = ({ updatePost }) => {
                 setLoading(true);
                 const formData = new FormData();
                 formData.append('content', content);
-                attachment.forEach((file, index) => {
+                attachment?.forEach((file, index) => {
                     formData.append(`attachments[${index}]`, file);
                 });
                 const response = await postApi.createPost(formData);

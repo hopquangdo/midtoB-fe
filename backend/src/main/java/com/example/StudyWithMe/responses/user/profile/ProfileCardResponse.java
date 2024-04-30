@@ -7,13 +7,13 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UserCardResponse {
+public class ProfileCardResponse {
     private Long userId;
     private String userName;
     private String fullName;
     private String avatar;
-    public static UserCardResponse fromUserCard(User user, Profile profile){
-        return UserCardResponse.builder()
+    public static ProfileCardResponse fromUserCard(User user, Profile profile){
+        return ProfileCardResponse.builder()
                 .userId(user.getUserId())
                 .userName("dqh999")
                 .fullName(profile.getFirstName() + " " + profile.getLastName())

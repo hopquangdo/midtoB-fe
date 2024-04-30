@@ -4,9 +4,11 @@ import com.example.StudyWithMe.models.user.auth.User;
 import com.example.StudyWithMe.models.socialmedia.like.Like;
 import com.example.StudyWithMe.models.socialmedia.post.Post;
 import com.example.StudyWithMe.repositories.socialmedia.like.LikeRepository;
+import com.example.StudyWithMe.responses.socialmedia.like.LikeResponse;
+
 import com.example.StudyWithMe.services.user.auth.IAuthService;
-import com.example.StudyWithMe.services.socialmedia.post.IPostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +20,10 @@ public class LikeService implements ILikeService {
     private final IAuthService authService;
     @Override
     public Like likePost(Post post) {
-        User existingUser = authService.getUserDetail();
+        User currentUser = authService.getCurrentUser();
         Like newLike = Like.builder()
                 .post(post)
-                .user(existingUser)
+                .user(currentUser)
                 .build();
         likeRepository.save(newLike);
         return newLike;
@@ -29,15 +31,28 @@ public class LikeService implements ILikeService {
 
     @Override
     public void unlikePost(Post post) {
-        User existingUser = authService.getUserDetail();
-        likeRepository.deleteByUserAndPost(existingUser.getUserId(),post.getPostId());
+        User currentUser = authService.getCurrentUser();
+        likeRepository.deleteByUserAndPost(currentUser.getUserId(),post.getPostId());
     }
     @Override
-    public List<Like> getAllLikeForPost(Post post) {
-        return likeRepository.findAllByPost(post);
+    public LikeResponse getTotalLikeForPost(Post post) {
+        long totalLike = this.countByPostId(post.getPostId());
+        User currentUser = authService.getCurrentUser();
+        if (currentUser == null){
+            return LikeResponse.fromLike(totalLike,false);
+        }
+        return LikeResponse.fromLike(totalLike,hasUserLikedPost(currentUser, post));
     }
     @Override
     public void deleteAllLikeForPost(Post post){
         likeRepository.deleteAllLikeForPost(post.getPostId());
+    }
+
+    public boolean hasUserLikedPost(User user, Post post) {
+        User currentUser = authService.getCurrentUser();
+        return likeRepository.existsByUserAndPost(currentUser, post);
+    }
+    private long countByPostId(Long postId) {
+        return likeRepository.countByPostId(postId);
     }
 }

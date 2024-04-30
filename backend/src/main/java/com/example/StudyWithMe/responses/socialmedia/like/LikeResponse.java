@@ -9,14 +9,12 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class LikeResponse {
-    private Long likeId;
-    private Long userId;
-    private LocalDateTime createdAt;
-    public static LikeResponse fromLike(Like like){
+    private long totalLike;
+    private boolean isLike;
+    public static LikeResponse fromLike(long totalLike,boolean isLike){
         return LikeResponse.builder()
-                .likeId(like.getLikeId())
-                .userId(like.getUser().getUserId())
-                .createdAt(like.getCreatedAt())
+                .totalLike(totalLike)
+                .isLike(isLike)
                 .build();
     }
 }

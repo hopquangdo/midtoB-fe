@@ -16,7 +16,7 @@ const CommentCard = ({comment}) => {
     const deleteTweetHandler = async (id) => {
     };
     return (
-        <div className='flex p-4 '>
+        <div className='flex p-1'>
             <Avatar src={comment?.user?.avatar} size="30" round={true} />
             <div className=' ml-2 w-full'>
                 <div className='flex items-center'>
@@ -31,7 +31,7 @@ const CommentCard = ({comment}) => {
                         ) )}
                     </div>
                 </div>
-                <div className='flex my-3'>
+                <div className='flex'>
                     <div className='flex items-center'>
                         <div onClick={() => likeOrDislikeHandler(post?._id)} className='p-2 hover:bg-pink-200 rounded-full cursor-pointer'>
                             <FaHeart size="15px"/>

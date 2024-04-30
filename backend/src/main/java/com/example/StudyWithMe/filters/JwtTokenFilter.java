@@ -1,4 +1,6 @@
 package com.example.StudyWithMe.filters;
+import com.example.StudyWithMe.exceptions.AccessDeniedException;
+import com.example.StudyWithMe.models.user.auth.User;
 import com.example.StudyWithMe.services.user.auth.IAuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,7 +18,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 import java.util.Arrays;
 import java.util.List;
 @Component
@@ -32,22 +33,24 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain)
             throws ServletException, IOException {
-        if (isBypassToken(request)){
-            filterChain.doFilter(request,response);
-            return;
-        }
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             UserDetails userDetails = authService.authenticationToken(token);
+            User currentUser = authService.getUserByUserName(userDetails.getUsername());
             Authentication authentication =
-                    new UsernamePasswordAuthenticationToken(userDetails,
+                    new UsernamePasswordAuthenticationToken(currentUser,
                             null,
                             userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);
         } else {
-            throw new AccessDeniedException("Cannot ");
+            if (isBypassToken(request)){
+                filterChain.doFilter(request,response);
+                return;
+            } else {
+                throw new AccessDeniedException("You don't have access");
+            }
         }
     }
     private boolean isBypassToken(@NonNull ServletRequest servletRequest) {
@@ -56,6 +59,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String requestMethod = request.getMethod();
         final List<Pair<String, String>> bypassRoutes  = Arrays.asList(
                 Pair.of(String.format("/%s/post",apiPrefix),"GET"),
+                Pair.of(String.format("/%s/comment",apiPrefix),"GET"),
+                Pair.of(String.format("/%s/replyComment",apiPrefix),"GET"),
                 Pair.of(String.format("/%s/like",apiPrefix),"GET"),
 
 

@@ -14,25 +14,22 @@ import postApi from '../../../../services/apis/social-media/postApi';
 const PostCard = ({post,deletePost}) => {
     const navigate = useNavigate();
     const authUser = useSelector((state) => state.user.auth);
-
-    const [onLike,setOnLike] = useState(post?.likes?.some(like => like?.userId === authUser?.currentUser?.userId));
+    const [onLike,setOnLike] = useState(post?.currentUserLikePost);
     const [onComment,setOnComment] = useState(false);
 
-    const [totalLike,setTotalLike] = useState(post?.likes?.length || 0);
-    const [totalComment,setTotalComment] = useState(post?.comment?.length || 0);
+    const [totalLike,setTotalLike] = useState(post?.totalLikes || 0);
+    const [totalComment,setTotalComment] = useState(post?.totalComments || 0);
 
     const fetchLike = async () => {
         try {
-            const response = await emotionLikeApi.likePost(post?.postId);
-            console.log(response);
+            await emotionLikeApi.likePost(post?.postId);
         } catch (err){
             console.log(err);
         }
     }
     const fetchUnLike = async () => {
         try {
-            const response = await emotionLikeApi.unlikePost(post?.postId);
-            console.log(response);
+            await emotionLikeApi.unlikePost(post?.postId);
         } catch (err){
             console.log(err);
         }
@@ -41,21 +38,21 @@ const PostCard = ({post,deletePost}) => {
         if (!authUser.isLoggedIn){
             navigate("/login");
             notify.warn("Vui lòng đăng nhập!");
-        }
-        if (onLike){
-            fetchUnLike();
-            setTotalLike(totalLike -1);
         } else {
-            fetchLike();
-            setTotalLike(totalLike + 1);
+            if (onLike){
+                fetchUnLike();
+                setTotalLike(totalLike -1);
+            } else {
+                fetchLike();
+                setTotalLike(totalLike + 1);
+            }
+            setOnLike(!onLike);
         }
-        setOnLike(!onLike);
     };
     const handleDeletePost = async ()  => {
         try {
             const response = await postApi.deletePost(post?.postId);
             deletePost(post?.postId);
-            console.log(response);
             notify.success("Xóa bài viết thành công!");
         } catch(err){
             console.log(err);

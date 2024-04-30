@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,6 +48,7 @@ public class User extends BaseEntity implements UserDetails  {
                 .forEach(authorityList::add);
         return authorityList;
     }
+
     @Override
     public String getPassword() {
         return password;

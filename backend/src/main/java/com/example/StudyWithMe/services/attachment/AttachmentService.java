@@ -61,23 +61,34 @@ public class AttachmentService implements IAttachmentService{
         }
     }
     @Override
-    public void delete(String fileUrl) {
-
-        Storage storage = StorageOptions.getDefaultInstance().getService();
-        String fileName = "77c91d7d-e1e3-4de3-93bb-06c02379d191.jpg";
-        System.out.println(fileName);
-        BlobId blobId = BlobId.of("pjstudywithme.appspot.com", "77c91d7d-e1e3-4de3-93bb-06c02379d191.jpg");
-        boolean deleted = storage.delete(blobId);
-        if (deleted) {
-            System.out.println("File " + fileName + " has been deleted successfully.");
-        } else {
-            System.out.println("Failed to delete file " + fileName);
+    public void delete(String fileUrl){
+        try {
+            String fileName = extractFileName(fileUrl);
+            InputStream inputStream = AttachmentService.class.getClassLoader().getResourceAsStream("firebase-key.json");
+            Credentials credentials = GoogleCredentials.fromStream(inputStream);
+            Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+            BlobId blobId = BlobId.of("pjstudywithme.appspot.com", fileName);
+            boolean deleted = storage.delete(blobId);
+            if (deleted) {
+                System.out.println("File " + fileName + " has been deleted successfully.");
+            } else {
+                System.out.println("Failed to delete file " + fileName);
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
     private static String extractFileName(String url) {
+        // Tìm vị trí của ký tự '/' cuối cùng
         int lastIndex = url.lastIndexOf('/');
+        // Kiểm tra nếu vị trí cuối cùng không phải là ký tự cuối cùng trong URL
         if (lastIndex != -1 && lastIndex < url.length() - 1) {
-            return url.substring(lastIndex + 1);
+            // Tách phần URL trước ký tự '?' nếu có
+            String fileNameWithParams = url.substring(lastIndex + 1);
+            // Tìm vị trí của ký tự '?' trong phần tên tệp
+            int questionMarkIndex = fileNameWithParams.indexOf('?');
+            // Trả về phần tên tệp trước ký tự '?', nếu không tìm thấy thì trả về toàn bộ phần tên tệp
+            return questionMarkIndex != -1 ? fileNameWithParams.substring(0, questionMarkIndex) : fileNameWithParams;
         }
         return null;
     }
