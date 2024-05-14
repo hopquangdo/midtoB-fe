@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TopMemberAnswer from "./components/TopMemberAnswer";
 import HeaderQuestion from "./components/HeaderQuestion";
 import FilterQuestion from "./components/FilterQuestion";
@@ -6,51 +6,68 @@ import CategoryQuestion from "./components/CategoryQuestion";
 import QuestionCard from "./components/QuestionCard";
 import Pagination from "../../../components/pagination/Pagination";
 import SortQuestion from "./components/SortQuestion";
+import questionApi from "../../../services/apis/study/questionApi";
 const QuestionPage = () => {
-    const questions = [
-        {questionId: 1,title:"Throw an error preventing a table update in a MySQL trigger1",
-            content: "If I have a trigger before the update on a table, how can I throw an error that prevents the update on that table?",
-            tags: [
-                {tagId: 10, tagName: "MySQL"},
-                {tagId: 11, tagName: "database"}
-            ],
-        },
-        {questionId: 2,title:"Throw an error preventing a table update in a MySQL trigger2",
-            content: "If I have a trigger before the update on a table, how can I throw an error that prevents the update on that table?",
-            tags: [
-                {tagId: 10, tagName: "MySQL"},
-                {tagId: 11, tagName: "databasee"}
-            ],
-        },
-        {questionId: 3,title:"Throw an error preventing a table update in a MySQL trigger3",
-            content: "If I have a trigger before the update on a table, how can I throw an error that prevents the update on that table?",
-            tags: [
-                {tagId: 10, tagName: "MySQL"},
-                {tagId: 11, tagName: "database"}
-            ],
-        },
-        {questionId: 4,title:"Throw an error preventing a table update in a MySQL trigger4",
-            content: "If I have a trigger before the update on a table, how can I throw an error that prevents the update on that table?",
-            tags: [
-                {tagId: 10, tagName: "MySQL"},
-                {tagId: 11, tagName: "database"}
-            ],
-            },
-        {questionId: 5,title:"Throw an error preventing a table update in a MySQL trigger5",
-            content: "If I have a trigger before the update on a table, how can I throw an error that prevents the update on that table?",
-            tags: [
-                {tagId: 10, tagName: "MySQL"},
-                {tagId: 11, tagName: "database"}
-            ],
-            },
-        {questionId: 6,title:"Throw an error preventing a table update in a MySQL trigger6",
-        content: "If I have a trigger before the update on a table, how can I throw an error that prevents the update on that table?",
-            tags: [
-                {tagId: 10, tagName: "MySQL"},
-                {tagId: 11, tagName: "database"}
-            ],
-            },
-        ];
+    // const questions = [
+    //     {questionId: 1,title:"Throw an error preventing a table update in a MySQL trigger1",
+    //         content: "If I have a trigger before the update on a table, how can I throw an error that prevents the update on that table?",
+    //         tags: [
+    //             {tagId: 10, tagName: "MySQL"},
+    //             {tagId: 11, tagName: "database"}
+    //         ],
+    //     },
+    //     {questionId: 2,title:"Throw an error preventing a table update in a MySQL trigger2",
+    //         content: "If I have a trigger before the update on a table, how can I throw an error that prevents the update on that table?",
+    //         tags: [
+    //             {tagId: 10, tagName: "MySQL"},
+    //             {tagId: 11, tagName: "databasee"}
+    //         ],
+    //     },
+    //     {questionId: 3,title:"Throw an error preventing a table update in a MySQL trigger3",
+    //         content: "If I have a trigger before the update on a table, how can I throw an error that prevents the update on that table?",
+    //         tags: [
+    //             {tagId: 10, tagName: "MySQL"},
+    //             {tagId: 11, tagName: "database"}
+    //         ],
+    //     },
+    //     {questionId: 4,title:"Throw an error preventing a table update in a MySQL trigger4",
+    //         content: "If I have a trigger before the update on a table, how can I throw an error that prevents the update on that table?",
+    //         tags: [
+    //             {tagId: 10, tagName: "MySQL"},
+    //             {tagId: 11, tagName: "database"}
+    //         ],
+    //         },
+    //     {questionId: 5,title:"Throw an error preventing a table update in a MySQL trigger5",
+    //         content: "If I have a trigger before the update on a table, how can I throw an error that prevents the update on that table?",
+    //         tags: [
+    //             {tagId: 10, tagName: "MySQL"},
+    //             {tagId: 11, tagName: "database"}
+    //         ],
+    //         },
+    //     {questionId: 6,title:"Throw an error preventing a table update in a MySQL trigger6",
+    //     content: "If I have a trigger before the update on a table, how can I throw an error that prevents the update on that table?",
+    //         tags: [
+    //             {tagId: 10, tagName: "MySQL"},
+    //             {tagId: 11, tagName: "database"}
+    //         ],
+    //         },
+    //     ];
+    const [questions, setQuestions] = useState([]);
+    const fetchQuestions = async () => {
+        try {
+            const response = await questionApi.getAllQuestions();
+            setQuestions(response.data.content);
+            console.log(response.data);
+        } catch(err){
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        document.title = "Học tập | StudyWithMe";
+        fetchQuestions();
+    }, []);
+
     return (
         <div className="flex flex-col item-center justify-center ">
             <HeaderQuestion/>
