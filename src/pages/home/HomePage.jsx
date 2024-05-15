@@ -5,7 +5,7 @@ import News from './components/news/News';
 import UserOnline from '../../components/userOnline/UserOnline';
 const HomePage = () => {
   return (
-    <div className="flex flex-wrap w-full justify-center ">
+    <div className="flex flex-wrap w-full justify-center gap-9">
       <div className="m-2 w-[572px]">
         <Post />
       </div>
