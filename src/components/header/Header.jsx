@@ -8,9 +8,69 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen, isHomeLayout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectNav, setSelectNav] = useState(1);
   const navigations = [
-    { navId: 1, title: 'Trang chủ', href: '/home' },
-    { navId: 2, title: 'Xu hướng', href: '/study/questions' },
-    { navId: 3, title: 'Nhắn tin', href: '/home' },
+    {
+      navId: 1,
+      title: 'Trang chủ',
+      href: '/home',
+      icon: (
+        <img
+          src="https://i.ibb.co/Kb6FZSw/logo-huy-toan-XANH-TACH-NEN.png"
+          className="h-8 me-3"
+          alt=""
+        />
+      ),
+    },
+    {
+      navId: 2,
+      title: 'Xu hướng',
+      href: '/study/questions',
+      icon: (
+        <svg
+          className="w-6 h-6 text-gray-800 "
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M4 4.5V19a1 1 0 0 0 1 1h15M7 14l4-4 4 4 5-5m0 0h-3.207M20 9v3.207"
+          />
+        </svg>
+      ),
+    },
+    {
+      navId: 3,
+      title: 'Nhắn tin',
+      href: '/home',
+      icon: (
+        <svg
+          className="w-6 h-6 text-gray-800 "
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fillRule="evenodd"
+            d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z"
+            clipRule="evenodd"
+          />
+          <path
+            fillRule="evenodd"
+            d="M8.023 17.215c.033-.03.066-.062.098-.094L10.243 15H15a3 3 0 0 0 3-3V8h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1v2a1 1 0 0 1-1.707.707L14.586 18H9a1 1 0 0 1-.977-.785Z"
+            clipRule="evenodd"
+          />
+        </svg>
+      ),
+    },
     {
       navId: 4,
       title: 'Học tập',
@@ -85,7 +145,28 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen, isHomeLayout }) => {
         },
       ],
     },
-    { navId: 5, title: 'Hỏi đáp', href: '/study/questions' },
+    {
+      navId: 5,
+      title: 'Hỗ trợ',
+      href: '/study/questions',
+      icon: (
+        <svg
+          className="w-6 h-6 text-gray-800"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fillRule="evenodd"
+            d="M12 2a7 7 0 0 0-7 7 3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1a1 1 0 0 0 1-1V9a5 5 0 1 1 10 0v7.083A2.919 2.919 0 0 1 14.083 19H14a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h1a2 2 0 0 0 1.732-1h.351a4.917 4.917 0 0 0 4.83-4H19a3 3 0 0 0 3-3v-2a3 3 0 0 0-3-3 7 7 0 0 0-7-7Zm1.45 3.275a4 4 0 0 0-4.352.976 1 1 0 0 0 1.452 1.376 2.001 2.001 0 0 1 2.836-.067 1 1 0 1 0 1.386-1.442 4 4 0 0 0-1.321-.843Z"
+            clipRule="evenodd"
+          />
+        </svg>
+      ),
+    },
   ];
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -174,9 +255,10 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen, isHomeLayout }) => {
           return (
             <Link
               to={nav.href}
-              className="m-2 transition-all duration-300 border-2 border-transparent hover:border-b-[#1f2937] pb-1 flex items-center gap-1 relative group"
+              className="m-2 transition-all duration-300 border-2 border-transparent hover:border-b-[#1f2937] pb-1 flex items-center relative group gap-2"
               key={nav.navId}
             >
+              {nav.icon}
               {nav.title}
             </Link>
           );
