@@ -5,16 +5,16 @@ import News from './components/news/News';
 import UserOnline from '../../components/userOnline/UserOnline';
 const HomePage = () => {
   return (
-    <div className='flex flex-row w-full justify-center'>
-      <div className='m-2'>
-        <Post/>
+    <div className="flex flex-wrap w-full justify-center ">
+      <div className="m-2 w-[572px]">
+        <Post />
       </div>
-      <div className='p-10 max-w-[600px]'>
-        <News/>
-        <SuggestFriends/>
+      <div className="p-10 max-w-[600px]">
+        <News />
+        <SuggestFriends />
       </div>
       <div>
-        <UserOnline/>
+        <UserOnline />
       </div>
     </div>
   );
